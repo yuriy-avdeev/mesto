@@ -1,0 +1,12 @@
+.photo-place {
+    width: fit-content;
+    max-width: 282px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
