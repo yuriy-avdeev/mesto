@@ -11,11 +11,6 @@ function popupToggle() {
 openPopup.addEventListener('click', popupToggle);
 closePopup.addEventListener('click', popupToggle);
 buttotSendForm.addEventListener('click', popupToggle);
-// overlay.addEventListener('click', (Event) => {
-//     if (Event.target === Event.currentTarget) {
-//         popupToggle();
-//     }
-// });
 
 function handleFormSubmit (evt) {
     evt.preventDefault(); 

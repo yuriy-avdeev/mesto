@@ -1,8 +1,7 @@
 .overlay {
     display: none;
     justify-content: center;
-    align-items: flex-start;
-    padding-top: 123px;
+    align-items: center;
     position: fixed;
     top: 0;
     right: 0;

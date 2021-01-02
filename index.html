@@ -20,43 +20,43 @@
                 <div class="profile__person">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
                     <p class="profile__activity">Исследователь океана</p>
-                </div>    
-                <button class="profile__editor-popup"></button>
+                </div>
+                <button class="profile__editor-popup" type="button"></button>
             </div>
-            <button class="profile__add"></button>
+            <button class="profile__add" type="button"></button>
         </section>
 
         <section class="places">
-            <figure class="photo-place">
+            <div class="photo-place">
                 <img class="photo-place__image" src="./images/Karachaevsk.jpg" alt="церковь в горах">
-                <figcaption class="photo-place__caption">Карачаевск</figcaption>
-                <button class="photo-place__like"></button>
-            </figure>
-            <figure class="photo-place">
+                <h2 class="photo-place__caption">Карачаевск</h2>
+                <button class="photo-place__like" type="button"></button>
+            </div>
+            <div class="photo-place">
                 <img class="photo-place__image" src="./images/Elbrus.jpg" alt="равнина с горой вдали">
-                <figcaption class="photo-place__caption">Гора Эльбрус</figcaption>
-                <button class="photo-place__like"></button>
-            </figure>
-            <figure class="photo-place">
+                <h2 class="photo-place__caption">Гора Эльбрус</h2>
+                <button class="photo-place__like" type="button"></button>
+            </div>
+            <div class="photo-place">
                 <img class="photo-place__image" src="./images/Dombay.jpg" alt="заснеженная гора">
-                <figcaption class="photo-place__caption">Домбай</figcaption>
-                <button class="photo-place__like"></button>
-            </figure>
-            <figure class="photo-place">
+                <h2 class="photo-place__caption">Домбай</h2>
+                <button class="photo-place__like" type="button"></button>
+            </div>
+            <div class="photo-place">
                 <img class="photo-place__image" src="./images/Elbrus.jpg" alt="равнина с горой вдали">
-                <figcaption class="photo-place__caption">Гора Эльбрус</figcaption>
-                <button class="photo-place__like"></button>
-            </figure>
-            <figure class="photo-place">
+                <h2 class="photo-place__caption">Гора Эльбрус</h2>
+                <button class="photo-place__like" type="button"></button>
+            </div>
+            <div class="photo-place">
                 <img class="photo-place__image" src="./images/Dombay.jpg" alt="заснеженная гора">
-                <figcaption class="photo-place__caption">Домбай</figcaption>
-                <button class="photo-place__like"></button>
-            </figure>
-            <figure class="photo-place">
+                <h2 class="photo-place__caption">Домбай</h2>
+                <button class="photo-place__like" type="button"></button>
+            </div>
+            <div class="photo-place">
                 <img class="photo-place__image" src="./images/Karachaevsk.jpg" alt="церковь в горах">
-                <figcaption class="photo-place__caption">Карачаево-Черкессия</figcaption>
-                <button class="photo-place__like"></button>
-            </figure>
+                <h2 class="photo-place__caption">Карачаево-Черкессия</h2>
+                <button class="photo-place__like" type="button"></button>
+            </div>
         </section>
 
         <footer class="footer">
@@ -66,16 +66,19 @@
         <section class="overlay">
             <div class="popup">
                 <h2 class="popup__title">Редактировать профиль</h2>
-                <form class="popup__form">
-                    <input type="text" class="popup__form popup__form_type_name" value="Жак-Ив Кусто" required>  
-                    <input type="text" class="popup__form popup__form_type_activity" value="Исследователь океанов" required>
+                <form class="popup__form" name="popup-form">
+                    <input name="username" type="text" class="popup__form popup__form_type_name" value=""
+                        required>
+                    <input name="useractivity" type="text" class="popup__form popup__form_type_activity"
+                        value="" required>
                     <button class="popup__submit" type="submit">Сохранить</button>
                 </form>
-                <span class="popup__close"></span>
+                <button class="popup__close" type="button"></button>
             </div>
         </section>
 
     </div>
     <script src="./script/index.js"></script>
 </body>
+
 </html>
