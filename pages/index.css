@@ -21,7 +21,6 @@
 
 @import url(../blocks/photo-place/photo-place.css);
 @import url(../blocks/photo-place/__image/photo-place__image.css);
-@import url(../blocks/photo-place/__caption-area/photo-place__caption-area.css);
 @import url(../blocks/photo-place/__caption/photo-place__caption.css);
 @import url(../blocks/photo-place/__like/photo-place__like.css);
 
