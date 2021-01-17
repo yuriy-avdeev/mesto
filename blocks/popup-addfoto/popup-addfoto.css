@@ -1,4 +1,4 @@
-.popup {
+.popup-addfoto {
     display: none;
     justify-content: center;
     align-items: center;
@@ -8,13 +8,4 @@
     bottom: 0;
     left: 0;
     background-color: rgba(0, 0, 0, .5);
-}
-
-@keyframes smooth {
-    0% {
-        visibility: hidden;
-    }
-    100% {
-        visibility: visible;
-    }
 }

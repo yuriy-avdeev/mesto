@@ -27,35 +27,51 @@
         </section>
 
         <section class="places">
+
+            <template id="photo-place">
+                <div class="photo-place">
+                    <img class="photo-place__image" alt="новое фото">
+                    <h2 class="photo-place__caption"></h2>
+                    <button class="photo-place__like" type="button"></button>
+                    <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
+                </div>
+            </template>
+
             <div class="photo-place">
-                <img class="photo-place__image" src="./images/Karachaevsk.jpg" alt="церковь в горах">
+                <img class="photo-place__image" src='./images/Karachaevsk.jpg' alt="церковь в горах">
                 <h2 class="photo-place__caption">Карачаевск</h2>
                 <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
+                <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
             </div>
             <div class="photo-place">
                 <img class="photo-place__image" src="./images/Elbrus.jpg" alt="равнина с горой вдали">
                 <h2 class="photo-place__caption">Гора Эльбрус</h2>
                 <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
+                <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
             </div>
             <div class="photo-place">
                 <img class="photo-place__image" src="./images/Dombay.jpg" alt="заснеженная гора">
                 <h2 class="photo-place__caption">Домбай</h2>
                 <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
+                <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
             </div>
             <div class="photo-place">
                 <img class="photo-place__image" src="./images/Elbrus.jpg" alt="равнина с горой вдали">
                 <h2 class="photo-place__caption">Гора Эльбрус</h2>
                 <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
+                <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
             </div>
             <div class="photo-place">
                 <img class="photo-place__image" src="./images/Dombay.jpg" alt="заснеженная гора">
                 <h2 class="photo-place__caption">Домбай</h2>
                 <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
+                <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
             </div>
             <div class="photo-place">
                 <img class="photo-place__image" src="./images/Karachaevsk.jpg" alt="церковь в горах">
                 <h2 class="photo-place__caption">Карачаево-Черкессия</h2>
                 <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
+                <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
             </div>
         </section>
 
@@ -75,8 +91,19 @@
             </div>
         </div>
 
+        <div class="popup popup-addfoto">
+            <div class="popup__container">
+                <h2 class="popup__title">Новое место</h2>
+                <form class="popup__form popup__form-add" name="popup-add-place-form">
+                    <input name="place" type="text" class="popup__input popup__input_type_place" placeholder="Название" required>
+                    <input name="url" type="url" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+                    <button class="popup__submit" type="submit">Создать</button>
+                </form>
+                <button class="popup-addfoto__close" type="button" aria-label="закроем редактор добавления нового места"></button>
+            </div>
+        </div>
+
     </div>
     <script src="./script/index.js"></script>
 </body>
-
 </html>
