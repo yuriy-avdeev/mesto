@@ -1,0 +1,9 @@
+.overlay__container {
+    position: relative;
+    width: calc(100vw - 80px);
+    max-width: 816px;
+    /* height: auto; */
+    max-height: 540px;
+    margin: 0;
+    /* display: flex; */
+}

@@ -1,0 +1,8 @@
+.overlay__big-foto {
+    width: 100%;
+    max-height: calc(100% - 25px);
+    /* max-width: 433px;
+    height: auto;
+    max-height: 540px; */
+    /* z-index: 1; */
+}
