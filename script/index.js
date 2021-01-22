@@ -34,7 +34,7 @@ formElement.addEventListener('submit', handleFormSubmit);
 const initialCards = [
     {
     name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    link: './images/Karachaevsk.jpg'
     },
     {
     name: 'Челябинская область',
@@ -75,6 +75,8 @@ photoPlaceCaption[3].textContent = initialCards[3].name;
 photoPlaceCaption[4].textContent = initialCards[4].name;
 photoPlaceCaption[5].textContent = initialCards[5].name;
 
+photoPlaceCaption[0].alt = initialCards[0].name;
+
 
 // форма добавления нового места:
 const buttonPlaceAdd = document.querySelector('.profile__add');
@@ -108,7 +110,7 @@ function handleFormAddSubmit (evt) {
         evt.target.closest('.photo-place').remove();
     });
     
-    // работа с кнопкой лайк
+    // лайк в новой карточке
     let addLike = newPlace.querySelector('.photo-place__like');
     addLike.addEventListener('click', () => {
         addLike.classList.toggle('photo-place__like-click');
@@ -116,7 +118,6 @@ function handleFormAddSubmit (evt) {
 
     profile.prepend(newPlace);
     popupAddFotoToggle();
-    
     popupInputPlace.value = '';
     popupInputUrl.value = '';
 }
@@ -133,18 +134,8 @@ buttonDeleteCard.forEach(item => {
     }) 
 })
 
-//клик сделать только по корзине
 
-// const places = document.querySelector('.places'); 
-
-// places.addEventListener('click', function(evt) {
-//     const buttonDeleteCard = evt.target.children;
-//     if (!buttonDeleteCard) return 
-//     buttonDeleteCard.closest('.photo-place').remove();
-// })
-
-
-// работа с кнопкой лайк
+// лайк в старой карточке
 const buttonPhotoPlaceLike = document.querySelectorAll('.photo-place__like');
 
 buttonPhotoPlaceLike.forEach(item => { 
@@ -155,28 +146,19 @@ buttonPhotoPlaceLike.forEach(item => {
 
 
 // увеличение фотографии - сделать оверлей с темплейтом куда добавлять item по клику на него
-const overlay = document.querySelector('#overlay').content;
-const overlayContainer = document.querySelector('.overlay__container');
-const overlayBigFoto = document.querySelector('.overlay__big-foto');
-// const overlayCaption = document.querySelector('.overlay__caption');
+const overlay = document.querySelector('.overlay');
 
 photoPlaceImage.forEach(item => {
     item.addEventListener('click', () => {
         const overlayNew = overlay.cloneNode(true);
-        // item.classList.toggle('photo-place__image-big')
         overlayNew.classList.toggle('overlay_active');
+
+        const overlayBigFoto = overlayNew.querySelector('.overlay__big-foto');
+        const overlayCaption = overlayNew.querySelector('.overlay__caption');
+
         overlayBigFoto.src = item.src
+        overlayCaption.textContent = item.nextElementSibling.textContent
+
+        overlay.replaceWith(overlayNew);
     })
 })
-
-
-// function makeBigFoto (evt) {
-//     // evt.preventDefault(); 
-//     overlayWithFoto.classList.add('.overlay_active');
-//     const newOverlay = overlayWithFoto.cloneNode(true);
-//     newOverlay.querySelector('.overlay__big-foto').src = photoPlaceImage[0].src;
-//     // newOverlay.querySelector('.photo-place__image').src = ;
-//     profile.prepend(newPlace);
-// }
-
-// profile.addEventListener('click', makeBigFoto);
