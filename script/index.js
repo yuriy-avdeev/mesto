@@ -1,12 +1,14 @@
-let buttonOpenPopup = document.querySelector('.profile__editor-popup');
-let popup = document.querySelector('.popup');
-let closePopup = popup.querySelector('.popup__close');
-let buttotSendForm = popup.querySelector('.popup__submit');
-let formElement = document.querySelector('.popup__form');
-let nameInput = formElement.querySelector('.popup__input_type_name');
-let jobInput = formElement.querySelector('.popup__input_type_activity');
-let userName = document.querySelector('.profile__name');
-let userActivity = document.querySelector('.profile__activity');
+const buttonOpenPopup = document.querySelector('.profile__editor-popup');
+const popup = document.querySelector('.popup');
+const closePopup = popup.querySelector('.popup__close');
+const buttotSendForm = popup.querySelector('.popup__submit');
+const formElement = document.querySelector('.popup__form');
+const nameInput = formElement.querySelector('.popup__input_type_name');
+const jobInput = formElement.querySelector('.popup__input_type_activity');
+const userName = document.querySelector('.profile__name');
+const userActivity = document.querySelector('.profile__activity');
+const overlay = document.querySelector('.overlay');
+
 
 function popupToggle() {
     popup.classList.toggle('popup_active');
@@ -34,7 +36,7 @@ formElement.addEventListener('submit', handleFormSubmit);
 const initialCards = [
     {
     name: 'Архыз',
-    link: './images/Karachaevsk.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
     },
     {
     name: 'Челябинская область',
@@ -58,8 +60,8 @@ const initialCards = [
     }
 ];
 
-let photoPlaceImage = document.querySelectorAll('.photo-place__image'); 
-let photoPlaceCaption = document.querySelectorAll('.photo-place__caption'); 
+const photoPlaceImage = document.querySelectorAll('.photo-place__image'); 
+const photoPlaceCaption = document.querySelectorAll('.photo-place__caption'); 
 
 photoPlaceImage[0].src = initialCards[0].link;
 photoPlaceImage[1].src = initialCards[1].link;
@@ -75,8 +77,6 @@ photoPlaceCaption[3].textContent = initialCards[3].name;
 photoPlaceCaption[4].textContent = initialCards[4].name;
 photoPlaceCaption[5].textContent = initialCards[5].name;
 
-photoPlaceCaption[0].alt = initialCards[0].name;
-
 
 // форма добавления нового места:
 const buttonPlaceAdd = document.querySelector('.profile__add');
@@ -86,7 +86,7 @@ const popupAddFotoClose = document.querySelector('.popup-addfoto__close');
 
 function popupAddFotoToggle() {
     popupAddFoto.classList.toggle('popup-addfoto_active');
-}
+};
 
 buttonPlaceAdd.addEventListener('click', popupAddFotoToggle);
 popupAddFotoClose.addEventListener('click', popupAddFotoToggle);
@@ -102,8 +102,10 @@ const popupInputUrl = document.querySelector('.popup__input_type_url');
 function handleFormAddSubmit (evt) {
     evt.preventDefault(); 
     const newPlace = addPlace.cloneNode(true);
-    newPlace.querySelector('.photo-place__caption').textContent = popupInputPlace.value;
-    newPlace.querySelector('.photo-place__image').src = popupInputUrl.value;
+    const addCaption = newPlace.querySelector('.photo-place__caption');
+    addCaption.textContent = popupInputPlace.value;
+    const addFoto = newPlace.querySelector('.photo-place__image');
+    addFoto.src = popupInputUrl.value;
 
     // удаление новой карточки
     newPlace.querySelector('.photo-place__basket').addEventListener('click', function (evt) {
@@ -111,28 +113,43 @@ function handleFormAddSubmit (evt) {
     });
     
     // лайк в новой карточке
-    let addLike = newPlace.querySelector('.photo-place__like');
+    const addLike = newPlace.querySelector('.photo-place__like');
     addLike.addEventListener('click', () => {
-        addLike.classList.toggle('photo-place__like-click');
+        addLike.classList.toggle('photo-place__like_click');
+    });
+
+    //увеличение новой карточки
+    newPlace.querySelector('.photo-place__image').addEventListener('click', () => {
+        const overlayNew = overlay.cloneNode(true);
+        overlayNew.classList.toggle('overlay_active');
+
+        overlayNew.querySelector('.overlay__big-foto').src = addFoto.src;
+        overlayNew.querySelector('.overlay__caption').textContent = addCaption.textContent;
+
+        overlay.after(overlayNew);
+
+        overlayNew.querySelector('.overlay__button-close').addEventListener('click', () => {
+            overlayNew.classList.toggle('overlay_active');
+        });
     });
 
     profile.prepend(newPlace);
     popupAddFotoToggle();
     popupInputPlace.value = '';
     popupInputUrl.value = '';
-}
+};
 
 popupFormAdd.addEventListener('submit', handleFormAddSubmit);
 
 
 // удаление старой карточки
-let buttonDeleteCard = document.querySelectorAll('.photo-place__basket');
+const buttonDeleteCard = document.querySelectorAll('.photo-place__basket');
 
 buttonDeleteCard.forEach(item => { 
     item.addEventListener('click', () => {
         item.closest('.photo-place').remove()
-    }) 
-})
+    });
+});
 
 
 // лайк в старой карточке
@@ -140,25 +157,24 @@ const buttonPhotoPlaceLike = document.querySelectorAll('.photo-place__like');
 
 buttonPhotoPlaceLike.forEach(item => { 
     item.addEventListener('click', () => {
-        item.classList.toggle('photo-place__like-click')
-    }) 
-})
+        item.classList.toggle('photo-place__like_click')
+    });
+});
 
 
-// увеличение фотографии - сделать оверлей с темплейтом куда добавлять item по клику на него
-const overlay = document.querySelector('.overlay');
-
+// увеличение фотографии
 photoPlaceImage.forEach(item => {
     item.addEventListener('click', () => {
         const overlayNew = overlay.cloneNode(true);
         overlayNew.classList.toggle('overlay_active');
 
-        const overlayBigFoto = overlayNew.querySelector('.overlay__big-foto');
-        const overlayCaption = overlayNew.querySelector('.overlay__caption');
+        overlayNew.querySelector('.overlay__big-foto').src = item.src;
+        overlayNew.querySelector('.overlay__caption').textContent = item.nextElementSibling.textContent;
 
-        overlayBigFoto.src = item.src
-        overlayCaption.textContent = item.nextElementSibling.textContent
+        overlay.after(overlayNew);
 
-        overlay.replaceWith(overlayNew);
-    })
-})
+        overlayNew.querySelector('.overlay__button-close').addEventListener('click', () => {
+            overlayNew.classList.toggle('overlay_active');
+        });
+    });
+});
