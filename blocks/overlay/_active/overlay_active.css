@@ -1,6 +1,7 @@
 .overlay_active {
-    display: flex;
-    animation: smooth 1s;
+    visibility: visible;
+    opacity: 1;
+    animation: smooth .8s;
 }
 
 @keyframes smooth {
