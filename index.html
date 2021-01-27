@@ -27,14 +27,6 @@
         </section>
 
         <section class="places">
-            <template class="places-initial">
-                <div class="photo-initial photo-place">
-                    <img class="photo-initial__image photo-place__image" src='#' alt="загруженное изображение">
-                    <h2 class="photo-initial__caption"></h2>
-                    <button class="photo-initial__like" aria-label="поставим лайк" type="button"></button>
-                    <button class="photo-initial__basket" type="button" aria-label="удаляем фотографию"></button>
-                </div>
-            </template>            
         </section>
 
         <footer class="footer">
@@ -67,14 +59,16 @@
 
     </div>
 
+
     <template id="photo-place">
         <div class="photo-place">
-            <img class="photo-place__image" alt="новое фото">
+            <img class="photo-place__image" src="#" alt="добавим фото">
             <h2 class="photo-place__caption"></h2>
-            <button class="photo-place__like" type="button"></button>
+            <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
             <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
         </div>
     </template>
+
 
     <div class="overlay">
         <div class="overlay__container">

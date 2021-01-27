@@ -33,7 +33,7 @@ closePopup.addEventListener('click', popupToggle);
 formElement.addEventListener('submit', handleFormSubmit);
 
 
-// 6 новых фото - мест
+// 6 новых мест
 const initialCards = [
     {
     name: 'Архыз',
@@ -61,27 +61,37 @@ const initialCards = [
     }
 ];
 
-function newCard (placeSrc, sourseSrc, placeName, sourseName) {
+function addNewPlace (placeSrc, sourseSrc, placeName, sourseName) {
     placeSrc.src = sourseSrc;
     placeName.textContent = sourseName;
 };
 
-const placesInitialAdd = document.querySelector('.places-initial').content;
-const boxPhotoInitial = placesInitialAdd.querySelector('.photo-initial');
+const addPlace = document.querySelector('#photo-place').content;
+const boxPhoto = addPlace.querySelector('.photo-place');
 
+
+// работа с template - 6 карточек
 initialCards.forEach(item => {
-    const newBoxPhotoInitial = boxPhotoInitial.cloneNode(true);
-    const photoInitial = newBoxPhotoInitial.querySelector('.photo-initial__image');
-    const photoInitialName = newBoxPhotoInitial.querySelector('.photo-initial__caption'); 
+    const newBoxPhoto = boxPhoto.cloneNode(true);
+    const addFoto = newBoxPhoto.querySelector('.photo-place__image');
+    const addCaption = newBoxPhoto.querySelector('.photo-place__caption'); 
+    const buttonLikeCard = newBoxPhoto.querySelectorAll('.photo-place__like');
+    const buttonDeleteCard = newBoxPhoto.querySelectorAll('.photo-place__basket');
     const linkImage = item.link;
     const linkName = item.name;
 
-    newCard(photoInitial, linkImage, photoInitialName, linkName);
+    addNewPlace(addFoto, linkImage, addCaption, linkName);
 
-    profile.prepend(newBoxPhotoInitial);
+    profile.prepend(newBoxPhoto);
 
-    // удаление карточки
-    const buttonDeleteCard = newBoxPhotoInitial.querySelectorAll('.photo-initial__basket');
+    // лайк
+    buttonLikeCard.forEach(item => { 
+        item.addEventListener('click', () => {
+            item.classList.toggle('photo-place__like_click')
+        });
+    });
+
+    // удаление
     buttonDeleteCard.forEach(item => { 
         item.addEventListener('click', () => {
             item.closest('.photo-place').remove()
@@ -90,50 +100,32 @@ initialCards.forEach(item => {
 });
 
 
-// форма добавления нового места:
-const buttonPlaceAdd = document.querySelector('.profile__add');
-const popupAddFoto = document.querySelector('.popup-addfoto');
-const popupAddFotoClose = document.querySelector('.popup-addfoto__close');
-
-
-function popupAddFotoToggle() {
-    popupAddFoto.classList.toggle('popup-addfoto_active');
-};
-
-buttonPlaceAdd.addEventListener('click', popupAddFotoToggle);
-popupAddFotoClose.addEventListener('click', popupAddFotoToggle);
-
-//добавить новое место - работа с темплейт
-const addPlace = document.querySelector('#photo-place').content;
-const popupFormAdd = document.querySelector('.popup__form-add')
-const popupInputPlace = document.querySelector('.popup__input_type_place');
-const popupInputUrl = document.querySelector('.popup__input_type_url');
-
-
+// работа с template - добавление новой карточки
 function handleFormAddSubmit (evt) {
     evt.preventDefault(); 
-    const newPlace = addPlace.cloneNode(true);
-    const addCaption = newPlace.querySelector('.photo-place__caption');
-    const inputName = popupInputPlace.value;
-    const addFoto = newPlace.querySelector('.photo-place__image');
+    const newBoxPhoto = boxPhoto.cloneNode(true);
+    const addFoto = newBoxPhoto.querySelector('.photo-place__image');
+    const addCaption = newBoxPhoto.querySelector('.photo-place__caption');
+    const buttonLikeCard = newBoxPhoto.querySelector('.photo-place__like');
+    const buttonDeleteCard = newBoxPhoto.querySelector('.photo-place__basket');
     const inputImage = popupInputUrl.value;
-    
-    newCard(addFoto, inputImage, addCaption, inputName);
+    const inputName = popupInputPlace.value;
+
+
+    addNewPlace(addFoto, inputImage, addCaption, inputName);
 
     // удаление новой карточки
-    const basketNew = newPlace.querySelector('.photo-place__basket');
-    basketNew.addEventListener('click', function (evt) {
+    buttonDeleteCard.addEventListener('click', function (evt) {
         evt.target.closest('.photo-place').remove();
     });
     
     // лайк в новой карточке
-    const addLike = newPlace.querySelector('.photo-place__like');
-    addLike.addEventListener('click', () => {
-        addLike.classList.toggle('photo-place__like_click');
+    buttonLikeCard.addEventListener('click', () => {
+        buttonLikeCard.classList.toggle('photo-place__like_click');
     });
 
     // увеличение новой карточки
-    const photoNew = newPlace.querySelector('.photo-place__image');
+    const photoNew = newBoxPhoto.querySelector('.photo-place__image');
     photoNew.addEventListener('click', () => {
         const overlayNew = overlay.cloneNode(true);
         overlayNew.classList.toggle('overlay_active');
@@ -148,23 +140,29 @@ function handleFormAddSubmit (evt) {
         });
     });
 
-    profile.prepend(newPlace);
+    profile.prepend(newBoxPhoto);
     popupAddFotoToggle();
     popupInputPlace.value = '';
     popupInputUrl.value = '';
 };
 
+
+// форма добавления нового места:
+const buttonPlaceAdd = document.querySelector('.profile__add');
+const popupAddFoto = document.querySelector('.popup-addfoto');
+const popupFormAdd = document.querySelector('.popup__form-add')
+const popupInputPlace = document.querySelector('.popup__input_type_place');
+const popupInputUrl = document.querySelector('.popup__input_type_url');
+const popupAddFotoClose = document.querySelector('.popup-addfoto__close');
+
 popupFormAdd.addEventListener('submit', handleFormAddSubmit);
 
+function popupAddFotoToggle() {
+    popupAddFoto.classList.toggle('popup-addfoto_active');
+};
 
-// лайк в старой карточке
-const buttonPhotoPlaceLike = document.querySelectorAll('.photo-initial__like');
-
-buttonPhotoPlaceLike.forEach(item => { 
-    item.addEventListener('click', () => {
-        item.classList.toggle('photo-initial__like_click')
-    });
-});
+buttonPlaceAdd.addEventListener('click', popupAddFotoToggle);
+popupAddFotoClose.addEventListener('click', popupAddFotoToggle);
 
 
 // увеличение фотографии
