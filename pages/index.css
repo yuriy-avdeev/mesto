@@ -26,13 +26,6 @@
 @import url(../blocks/photo-place/__like/_click/photo-place__like_click.css);
 @import url(../blocks/photo-place/__basket/photo-place__basket.css);
 
-@import url(../blocks/photo-initial/photo-initial.css);
-@import url(../blocks/photo-initial/__image/photo-initial__image.css);
-@import url(../blocks/photo-initial/__caption/photo-initial__caption.css);
-@import url(../blocks/photo-initial/__like/photo-initial__like.css);
-@import url(../blocks/photo-initial/__like/_click/photo-initial__like_click.css);
-@import url(../blocks/photo-initial/__basket/photo-initial__basket.css);
-
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 
