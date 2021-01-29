@@ -1,7 +1,7 @@
 const buttonOpenPopup = document.querySelector('.profile__editor-popup');
 const popup = document.querySelector('.popup');
-const closePopup = popup.querySelector('.popup__close');
-const buttotSendForm = popup.querySelector('.popup__submit');
+const buttonClosePopup = popup.querySelector('.popup__close');
+// const buttotSendForm = popup.querySelector('.popup__submit');
 const formElement = document.querySelector('.popup__form');
 const nameInput = formElement.querySelector('.popup__input_type_name');
 const jobInput = formElement.querySelector('.popup__input_type_activity');
@@ -15,7 +15,6 @@ const popupAddFoto = document.querySelector('.popup-addfoto');
 const popupFormAdd = document.querySelector('.popup__form-add')
 const popupInputPlace = document.querySelector('.popup__input_type_place');
 const popupInputUrl = document.querySelector('.popup__input_type_url');
-const popupAddFotoClose = document.querySelector('.popup-addfoto__close');
 // template:
 const addPlace = document.querySelector('#photo-place').content;
 const boxPhoto = addPlace.querySelector('.photo-place');
@@ -39,7 +38,20 @@ function handleFormSubmit (evt) {
 }
 
 buttonOpenPopup.addEventListener('click', openPopup);
-closePopup.addEventListener('click', popupToggle);
+
+
+
+
+
+
+
+
+
+
+
+
+
+buttonClosePopup.addEventListener('click', popupToggle);
 formElement.addEventListener('submit', handleFormSubmit);
 
 
@@ -72,7 +84,7 @@ const initialCards = [
 ];
 
 function popupAddFotoToggle() {
-    popupAddFoto.classList.toggle('popup-addfoto_active');
+    popupAddFoto.classList.toggle('popup_active');
 };
 
 function addNewPlace (placeSrc, sourseSrc, placeName, sourseName) {
@@ -88,7 +100,7 @@ function likeCard (button) {
 
 function makeBigFoto (img, name) {
     img.addEventListener('click', () => {
-        overlay.classList.toggle('overlay_active');
+        overlay.classList.toggle('popup_active');
         overlay.querySelector('.overlay__big-foto').src = img.src;
         overlay.querySelector('.overlay__caption').textContent = name.textContent;
         overlay.after(overlay);
@@ -144,8 +156,7 @@ function handleFormAddSubmit (evt) {
 };
 
 popupFormAdd.addEventListener('submit', handleFormAddSubmit);
-buttonPlaceAdd.addEventListener('click', popupAddFotoToggle);
-popupAddFotoClose.addEventListener('click', popupAddFotoToggle);
+buttonPlaceAdd.addEventListener('click', popupToggle);
 overlay.querySelector('.overlay__button-close').addEventListener('click', () => {
-    overlay.classList.toggle('overlay_active');
+    overlay.classList.toggle('popup_active');
 });
