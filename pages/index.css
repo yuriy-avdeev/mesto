@@ -40,17 +40,7 @@
 @import url(../blocks/popup/__input/_type/popup__input_type_activity.css);
 @import url(../blocks/popup/__submit/popup__submit.css);
 
-@import url(../blocks/popup-addfoto/popup-addfoto.css);
-@import url(../blocks/popup-addfoto/_active/popup-addfoto_active.css);
-@import url(../blocks/popup-addfoto/__input/popup-addfoto__input.css);
-@import url(../blocks/popup-addfoto/__input/_type/popup-addfoto__input_type_place.css);
-@import url(../blocks/popup-addfoto/__input/_type/popup-addfoto__input_type_url.css);
-@import url(../blocks/popup-addfoto/__submit/popup-addfoto__submit.css);
-@import url(../blocks/popup-addfoto/__close/popup-addfoto__close.css);
-
-
 @import url(../blocks/overlay/overlay.css);
 @import url(../blocks/overlay/__container/overlay__container.css);
 @import url(../blocks/overlay/__big-foto/overlay__big-foto.css);
 @import url(../blocks/overlay/__caption/overlay__caption.css);
-@import url(../blocks/overlay/__button-close/overlay__button-close.css);
