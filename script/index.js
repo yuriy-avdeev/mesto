@@ -102,8 +102,8 @@ function deleteCard (button) {
     });
 };
 
-function makePhotoPlace(imageLink, imageName) {
-    const newPlace = boxPhoto.cloneNode(true);
+function makePhotoPlace(template, imageLink, imageName) {
+    const newPlace = template.cloneNode(true);
     const foto = newPlace.querySelector('.photo-place__image');
     const caption = newPlace.querySelector('.photo-place__caption'); 
     const buttonLikeCard = newPlace.querySelector('.photo-place__like');
@@ -128,7 +128,7 @@ function makePhotoPlace(imageLink, imageName) {
 initialCards.forEach(item => {
     const imageLink = item.link;
     const imageName = item.name;
-    makePhotoPlace(imageLink, imageName);
+    makePhotoPlace(boxPhoto, imageLink, imageName);
 });
 
 // template - добавление новой карточки
@@ -136,7 +136,7 @@ function handleFormAddSubmit (evt) {
     evt.preventDefault(); 
     const imageLink = popupInputUrl.value;
     const imageName = popupInputPlace.value;
-    makePhotoPlace(imageLink, imageName);
+    makePhotoPlace(boxPhoto, imageLink, imageName);
 
     popupClose(popupAddFoto);
     popupInputPlace.value = '';
