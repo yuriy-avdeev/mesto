@@ -124,9 +124,8 @@ function makePhotoPlace(template, imageLink, imageName) {
         bigImage.src = foto.src;
         const bigCaption = overlay.querySelector('.overlay__caption');
         bigCaption.textContent = caption.textContent;
-        return;
     });
-    return newPlace;
+    return;
 };
 
 
