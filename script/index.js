@@ -1,7 +1,6 @@
 const buttonOpenPopup = document.querySelector('.profile__editor-popup');
 const popup = document.querySelector('.popup');
 const buttonClosePopup = popup.querySelector('.popup__close');
-// const buttotSendForm = popup.querySelector('.popup__submit');
 const formElement = document.querySelector('.popup__form');
 const nameInput = formElement.querySelector('.popup__input_type_name');
 const jobInput = formElement.querySelector('.popup__input_type_activity');
@@ -102,6 +101,10 @@ function deleteCard (button) {
     });
 };
 
+function addCard(someCard) {
+    profile.prepend(someCard);
+}
+
 function makePhotoPlace(template, imageLink, imageName) {
     const newPlace = template.cloneNode(true);
     const foto = newPlace.querySelector('.photo-place__image');
@@ -113,7 +116,7 @@ function makePhotoPlace(template, imageLink, imageName) {
 
     likeCard(buttonLikeCard);
     deleteCard(buttonDeleteCard);
-    profile.prepend(newPlace);
+    addCard(newPlace)
 
     foto.addEventListener('click', () => {
         popupAdd(overlay);
@@ -123,7 +126,9 @@ function makePhotoPlace(template, imageLink, imageName) {
         bigCaption.textContent = caption.textContent;
         return;
     });
+    return newPlace;
 };
+
 
 initialCards.forEach(item => {
     const imageLink = item.link;
