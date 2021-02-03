@@ -101,9 +101,9 @@ function deleteCard (button) {
     });
 };
 
-function addCard(someCard) {
-    profile.prepend(someCard);
-}
+// function addCard(someCard) {
+//     profile.prepend(someCard);
+// }
 
 function makePhotoPlace(template, imageLink, imageName) {
     const newPlace = template.cloneNode(true);
@@ -116,7 +116,7 @@ function makePhotoPlace(template, imageLink, imageName) {
 
     likeCard(buttonLikeCard);
     deleteCard(buttonDeleteCard);
-    addCard(newPlace)
+    // addCard(newPlace)
 
     foto.addEventListener('click', () => {
         popupAdd(overlay);
@@ -125,14 +125,15 @@ function makePhotoPlace(template, imageLink, imageName) {
         const bigCaption = overlay.querySelector('.overlay__caption');
         bigCaption.textContent = caption.textContent;
     });
-    return;
+    return newPlace;
 };
 
 
 initialCards.forEach(item => {
     const imageLink = item.link;
     const imageName = item.name;
-    makePhotoPlace(boxPhoto, imageLink, imageName);
+    // makePhotoPlace(boxPhoto, imageLink, imageName);
+    profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
 });
 
 // template - добавление новой карточки
@@ -140,7 +141,8 @@ function handleFormAddSubmit (evt) {
     evt.preventDefault(); 
     const imageLink = popupInputUrl.value;
     const imageName = popupInputPlace.value;
-    makePhotoPlace(boxPhoto, imageLink, imageName);
+    // makePhotoPlace(boxPhoto, imageLink, imageName);
+    profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
 
     popupClose(popupAddFoto);
     popupInputPlace.value = '';
