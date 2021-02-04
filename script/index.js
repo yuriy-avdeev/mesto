@@ -1,6 +1,7 @@
 const buttonOpenPopup = document.querySelector('.profile__editor-popup');
 const popup = document.querySelector('.popup');
-const buttonClosePopup = popup.querySelector('.popup__close');
+const popupList = Array.from(document.querySelectorAll('.popup'));
+const buttonsClosePopup = Array.from(document.querySelectorAll('.popup__close'));
 const formElement = document.querySelector('.popup__form');
 const nameInput = formElement.querySelector('.popup__input_type_name');
 const jobInput = formElement.querySelector('.popup__input_type_activity');
@@ -41,12 +42,45 @@ function handleFormSubmit (evt) {
 }
 
 buttonOpenPopup.addEventListener('click', openPopup);
-buttonClosePopup.addEventListener('click', () => {
-    popupClose(popup);
-});
-formElement.addEventListener('submit', handleFormSubmit);
 
-// 5-я работа:
+// удаление значений каточки добавления нового места
+function deleteValue (somePopup) {
+    if (somePopup === popupAddFoto) {
+        popupInputPlace.value = '';
+        popupInputUrl.value = '';
+    }
+}
+
+// закроем попап кликом по крестику
+buttonsClosePopup.forEach(button => {
+    button.addEventListener('click', (evt) => {
+        popupClose(evt.target.closest('.popup'));
+        deleteValue(evt.target.closest('.popup'))
+    });
+});
+
+// закроем попап кликом по полю
+popupList.forEach(popup => {
+    popup.addEventListener('click', (evt) => {
+        if (evt.target === evt.currentTarget) {
+            popupClose(popup)
+            deleteValue(popup)
+        }
+    });
+});
+
+// закроем попап Esc
+popupList.forEach(popup => {
+    document.addEventListener('keyup', (evt) => {
+        if (evt.key === 'Escape') { 
+            evt.preventDefault();
+            popupClose(popup);
+            deleteValue(popup)
+        }
+    })
+});
+
+formElement.addEventListener('submit', handleFormSubmit);
 
 // 6 новых мест
 const initialCards = [
@@ -79,14 +113,7 @@ const initialCards = [
 buttonPlaceAdd.addEventListener('click', () => {
     popupAdd(popupAddFoto)
 });
-const buttonCloseFormAddFoto = popupAddFoto.querySelector('.popup__close');
-buttonCloseFormAddFoto.addEventListener('click', () => {
-    popupClose(popupAddFoto)
-});
-const buttonCloseOverlay = overlay.querySelector('.popup__close');
-buttonCloseOverlay.addEventListener('click', () => {
-    popupClose(overlay)
-});
+
 
 // работа с карточками
 function likeCard (button) {
@@ -101,9 +128,6 @@ function deleteCard (button) {
     });
 };
 
-// function addCard(someCard) {
-//     profile.prepend(someCard);
-// }
 
 function makePhotoPlace(template, imageLink, imageName) {
     const newPlace = template.cloneNode(true);
@@ -116,7 +140,6 @@ function makePhotoPlace(template, imageLink, imageName) {
 
     likeCard(buttonLikeCard);
     deleteCard(buttonDeleteCard);
-    // addCard(newPlace)
 
     foto.addEventListener('click', () => {
         popupAdd(overlay);
@@ -132,7 +155,6 @@ function makePhotoPlace(template, imageLink, imageName) {
 initialCards.forEach(item => {
     const imageLink = item.link;
     const imageName = item.name;
-    // makePhotoPlace(boxPhoto, imageLink, imageName);
     profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
 });
 
@@ -141,7 +163,6 @@ function handleFormAddSubmit (evt) {
     evt.preventDefault(); 
     const imageLink = popupInputUrl.value;
     const imageName = popupInputPlace.value;
-    // makePhotoPlace(boxPhoto, imageLink, imageName);
     profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
 
     popupClose(popupAddFoto);

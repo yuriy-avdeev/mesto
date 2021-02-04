@@ -21,9 +21,10 @@
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
                     <p class="profile__activity">Исследователь океана</p>
                 </div>
-                <button class="profile__editor-popup" type="button" aria-label="откроем редактор профиля пользователя"></button>
+                <button class="profile__editor-popup" type="button"
+                    aria-label="откроем редактор профиля пользователя"></button>
             </div>
-            <button class="profile__add"  aria-label="добавим фотографию" type="button"></button>
+            <button class="profile__add" aria-label="добавим фотографию" type="button"></button>
         </section>
 
         <section class="places">
@@ -36,24 +37,37 @@
         <div class="popup">
             <div class="popup__container">
                 <h2 class="popup__title">Редактировать профиль</h2>
+
                 <form class="popup__form" name="popup-form">
-                    <input name="username" type="text" class="popup__input popup__input_type_name" required>
-                    <input name="useractivity" type="text" class="popup__input popup__input_type_activity" required>
+                    <input id="username-input" name="username" type="text" class="popup__input popup__input_type_name"
+                        minlength="2" maxlength="40" required>
+                    <span class="username-input-error popup__input-error"></span>
+                    <input id="useractivity-input" name="useractivity" type="text"
+                        class="popup__input popup__input_type_activity" minlength="2" maxlength="200" required>
+                    <span class="useractivity-input-error popup__input-error"></span>
                     <button class="popup__submit" type="submit">Сохранить</button>
                 </form>
+
                 <button class="popup__close" type="button" aria-label="закроем редактор профиля пользователя"></button>
             </div>
         </div>
 
-        <div class="popup-addfoto popup">
+        <div class="popup popup-addfoto">
             <div class="popup__container">
                 <h2 class="popup__title">Новое место</h2>
+
                 <form class="popup__form popup__form-add" name="popup-add-place-form">
-                    <input name="place" type="text" class="popup__input popup__input_type_place" placeholder="Название" required>
-                    <input name="url" type="url" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+                    <input id="place-input" name="place" type="text" class="popup__input popup__input_type_place"
+                        placeholder="Название" minlength="2" maxlength="30" required>
+                    <span class="place-input-error popup__input-error">Proverka my</span>
+                    <input id="url-input" name="url" type="url" class="popup__input popup__input_type_url"
+                        placeholder="Ссылка на картинку" required>
+                    <span class="url-input-error popup__input-error"></span>
                     <button class="popup__submit" type="submit">Создать</button>
                 </form>
-                <button class="popup__close" type="button" aria-label="закроем редактор добавления нового места"></button>
+
+                <button class="popup__close" type="button"
+                    aria-label="закроем редактор добавления нового места"></button>
             </div>
         </div>
 
@@ -77,6 +91,8 @@
     </template>
 
     <script src="./script/index.js"></script>
+    <script src="./script/validate.js"></script>
 
 </body>
+
 </html>
