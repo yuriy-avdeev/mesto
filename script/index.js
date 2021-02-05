@@ -2,9 +2,9 @@ const buttonOpenPopup = document.querySelector('.profile__editor-popup');
 const popup = document.querySelector('.popup');
 const popupList = Array.from(document.querySelectorAll('.popup'));
 const buttonsClosePopup = Array.from(document.querySelectorAll('.popup__close'));
-const formElement = document.querySelector('.popup__form');
-const nameInput = formElement.querySelector('.popup__input_type_name');
-const jobInput = formElement.querySelector('.popup__input_type_activity');
+const formElementAboutUser = document.querySelector('.popup__form-user');
+const nameInput = formElementAboutUser.querySelector('.popup__input_type_name');
+const jobInput = formElementAboutUser.querySelector('.popup__input_type_activity');
 const userName = document.querySelector('.profile__name');
 const userActivity = document.querySelector('.profile__activity');
 const overlay = document.querySelector('.overlay');
@@ -12,49 +12,74 @@ const profile = document.querySelector('.places');
 // форма добавления нового места:
 const buttonPlaceAdd = document.querySelector('.profile__add');
 const popupAddFoto = document.querySelector('.popup-addfoto');
-const popupFormAdd = document.querySelector('.popup__form-add')
+const popupFormAddNewPlace = document.querySelector('.popup__form-add')
 const popupInputPlace = document.querySelector('.popup__input_type_place');
 const popupInputUrl = document.querySelector('.popup__input_type_url');
 // template:
 const addPlace = document.querySelector('#photo-place').content;
 const boxPhoto = addPlace.querySelector('.photo-place');
 
-
-function popupAdd(someOverlay) {
-    someOverlay.classList.add('popup_active');
-}
-
-function popupClose(someOverlay) {
+function closePopup(someOverlay) {
     someOverlay.classList.remove('popup_active');
+    const formElement = someOverlay.querySelector('.popup__form');
+    if (someOverlay.contains(formElement)) {
+        const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+        inputList.forEach((inputElement) => {
+            hideInputError(formElement, inputElement);
+        });
+    }
 }
 
-function openPopup () {
+// удаление значений карточки добавления нового места
+const deleteValue = (somePopup) => {
+    if (somePopup === popupAddFoto) {
+        popupFormAddNewPlace.reset();
+    }
+}
+
+// закроем попап с Esc
+const addListenerForEsc = (someOverlay) => {
+    function closeWithEsc(evt, someOverlay) {
+        if (evt.key === 'Escape') { 
+            evt.preventDefault();
+            closePopup(someOverlay);
+            deleteValue(someOverlay);
+            document.removeEventListener('keyup', closeWithEsc);
+        }
+    }  
+    document.addEventListener('keyup', (evt) => closeWithEsc(evt, someOverlay));
+}
+
+// откроем попап
+const openPopup = (someOverlay) => {
+    someOverlay.classList.add('popup_active');
+    const formElement = someOverlay.querySelector('.popup__form');
+    if (someOverlay.contains(formElement)) {
+        setEventListener(someOverlay.querySelector('.popup__form'))
+    }
+    // enableValidation(); // передать someOverlay как аргумент => enableValidatioт - без перебоpа внутри
+    addListenerForEsc(someOverlay);
+}
+
+function takeValue () {
     nameInput.value = userName.textContent;
     jobInput.value = userActivity.textContent;
-    popupAdd(popup);
+    openPopup(popup);
 }
 
 function handleFormSubmit (evt) {
     evt.preventDefault(); 
     userName.textContent = nameInput.value;
     userActivity.textContent = jobInput.value;
-    popupClose(popup);
+    closePopup(popup);
 }
 
-buttonOpenPopup.addEventListener('click', openPopup);
-
-// удаление значений каточки добавления нового места
-function deleteValue (somePopup) {
-    if (somePopup === popupAddFoto) {
-        popupInputPlace.value = '';
-        popupInputUrl.value = '';
-    }
-}
+buttonOpenPopup.addEventListener('click', takeValue);
 
 // закроем попап кликом по крестику
 buttonsClosePopup.forEach(button => {
     button.addEventListener('click', (evt) => {
-        popupClose(evt.target.closest('.popup'));
+        closePopup(evt.target.closest('.popup'));
         deleteValue(evt.target.closest('.popup'))
     });
 });
@@ -63,24 +88,13 @@ buttonsClosePopup.forEach(button => {
 popupList.forEach(popup => {
     popup.addEventListener('click', (evt) => {
         if (evt.target === evt.currentTarget) {
-            popupClose(popup)
+            closePopup(popup)
             deleteValue(popup)
         }
     });
 });
 
-// закроем попап Esc
-popupList.forEach(popup => {
-    document.addEventListener('keyup', (evt) => {
-        if (evt.key === 'Escape') { 
-            evt.preventDefault();
-            popupClose(popup);
-            deleteValue(popup)
-        }
-    })
-});
-
-formElement.addEventListener('submit', handleFormSubmit);
+formElementAboutUser.addEventListener('submit', handleFormSubmit);
 
 // 6 новых мест
 const initialCards = [
@@ -111,7 +125,7 @@ const initialCards = [
 ];
 
 buttonPlaceAdd.addEventListener('click', () => {
-    popupAdd(popupAddFoto)
+    openPopup(popupAddFoto)
 });
 
 
@@ -128,8 +142,7 @@ function deleteCard (button) {
     });
 };
 
-
-function makePhotoPlace(template, imageLink, imageName) {
+const makePhotoPlace = (template, imageLink, imageName) => {
     const newPlace = template.cloneNode(true);
     const foto = newPlace.querySelector('.photo-place__image');
     const caption = newPlace.querySelector('.photo-place__caption'); 
@@ -142,7 +155,7 @@ function makePhotoPlace(template, imageLink, imageName) {
     deleteCard(buttonDeleteCard);
 
     foto.addEventListener('click', () => {
-        popupAdd(overlay);
+        openPopup(overlay);
         const bigImage = overlay.querySelector('.overlay__big-foto');
         bigImage.src = foto.src;
         const bigCaption = overlay.querySelector('.overlay__caption');
@@ -165,9 +178,8 @@ function handleFormAddSubmit (evt) {
     const imageName = popupInputPlace.value;
     profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
 
-    popupClose(popupAddFoto);
-    popupInputPlace.value = '';
-    popupInputUrl.value = '';
+    closePopup(popupAddFoto);
+    popupFormAddNewPlace.reset();
 };
 
-popupFormAdd.addEventListener('submit', handleFormAddSubmit);
+popupFormAddNewPlace.addEventListener('submit', handleFormAddSubmit);

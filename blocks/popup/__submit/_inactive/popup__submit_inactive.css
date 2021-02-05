@@ -4,4 +4,9 @@
     border: 1px solid #000000;
     border-radius: 2px;
     opacity: .2;
+    cursor: auto;
+}
+
+.popup__submit_inactive:hover {
+    opacity: 0.2;
 }

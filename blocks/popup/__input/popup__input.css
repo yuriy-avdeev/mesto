@@ -11,7 +11,3 @@
     color: #000;
     background-color: white;
 }
-
-.popup__input:invalid {
-    border-bottom: 1px #f00 solid;
-}

@@ -38,7 +38,7 @@
             <div class="popup__container">
                 <h2 class="popup__title">Редактировать профиль</h2>
 
-                <form class="popup__form" name="popup-form">
+                <form class="popup__form popup__form-user" name="popup-form" novalidate>
                     <input id="username-input" name="username" type="text" class="popup__input popup__input_type_name"
                         minlength="2" maxlength="40" required>
                     <span class="username-input-error popup__input-error"></span>
@@ -56,10 +56,10 @@
             <div class="popup__container">
                 <h2 class="popup__title">Новое место</h2>
 
-                <form class="popup__form popup__form-add" name="popup-add-place-form">
+                <form class="popup__form popup__form-add" name="popup-add-place-form" novalidate>
                     <input id="place-input" name="place" type="text" class="popup__input popup__input_type_place"
                         placeholder="Название" minlength="2" maxlength="30" required>
-                    <span class="place-input-error popup__input-error">Proverka my</span>
+                    <span class="place-input-error popup__input-error"></span>
                     <input id="url-input" name="url" type="url" class="popup__input popup__input_type_url"
                         placeholder="Ссылка на картинку" required>
                     <span class="url-input-error popup__input-error"></span>
@@ -73,7 +73,7 @@
 
     </div>
 
-    <div class="overlay popup">
+    <div class="popup overlay">
         <div class="overlay__container">
             <img class="overlay__big-foto" src="#" alt="увеличенное фото">
             <h2 class="overlay__caption"></h2>
@@ -90,9 +90,8 @@
         </div>
     </template>
 
-    <script src="./script/index.js"></script>
     <script src="./script/validate.js"></script>
+    <script src="./script/index.js"></script>
 
 </body>
-
 </html>
