@@ -1,3 +1,12 @@
+const setting = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__submit',
+    inactiveButtonClass: 'popup__submit_inactive',
+    inputErrorClass: 'popup__input_state_error',
+    errorClass: 'popup__input-error_active',
+}
+
 const hasInvalidInput = (inputList) => {
     return inputList.some(inputElement => {
         return !inputElement.validity.valid;
@@ -7,10 +16,10 @@ const hasInvalidInput = (inputList) => {
 // работа с кнопкой
 const toggleButtonView = (inputList, buttonElement) => {
     if (hasInvalidInput(inputList)) {
-        buttonElement.classList.add('popup__submit_inactive');
+        buttonElement.classList.add(setting.inactiveButtonClass);
         buttonElement.setAttribute('disabled', true);
     } else {
-        buttonElement.classList.remove('popup__submit_inactive');
+        buttonElement.classList.remove(setting.inactiveButtonClass);
         buttonElement.removeAttribute('disabled');
     }
 }
@@ -18,14 +27,14 @@ const toggleButtonView = (inputList, buttonElement) => {
 const showInputError = (formElement, inputElement, errorMessage) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     errorElement.textContent = errorMessage;
-    inputElement.classList.add('popup__input_state_error');
-    errorElement.classList.add('popup__input-error_active');
+    inputElement.classList.add(setting.inputErrorClass);
+    errorElement.classList.add(setting.errorClass);
 }
 
 const hideInputError = (formElement, inputElement) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove('popup__input_state_error');
-    errorElement.classList.remove('popup__input-error_active')
+    inputElement.classList.remove(setting.inputErrorClass);
+    errorElement.classList.remove(setting.errorClass)
     errorElement.textContent = '';
 }
 
@@ -38,9 +47,20 @@ const isValid = (formElement, inputElement) => {
 }
 
 const setEventListener = (formElement) => {
-    const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-    const buttonElement = formElement.querySelector('.popup__submit');
+    console.log(setting);
+
+    const inputList = Array.from(formElement.querySelectorAll(setting.inputSelector));
+    const buttonElement = formElement.querySelector(setting.submitButtonSelector);
     toggleButtonView(inputList, buttonElement);
+
+    // слушатель reset - для очищения текста ошибок перед открытием формы (openPopup)
+    formElement.addEventListener('reset', () => {
+        inputList.forEach((inputElement) => {
+            hideInputError(formElement, inputElement)
+        });
+        toggleButtonView(inputList, buttonElement);
+    });
+
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', () => {
             isValid(formElement, inputElement);
@@ -49,14 +69,14 @@ const setEventListener = (formElement) => {
     });
 }
 
-const enableValidation = () => {
-    const formList = Array.from(document.querySelectorAll('.popup__form'));
-    formList.forEach((formElement) => {
+const enableValidation = (setting) => {
+    const formList = Array.from(document.querySelectorAll(setting.formSelector));
+    formList.forEach(formElement => {
         formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
+            setEventListener(formElement);
         });
-        setEventListener(formElement);
     });
 }
 
-enableValidation();
+enableValidation(setting);

@@ -34,10 +34,9 @@
             <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
         </footer>
 
-        <div class="popup">
+        <div class="popup profile-popup">
             <div class="popup__container">
                 <h2 class="popup__title">Редактировать профиль</h2>
-
                 <form class="popup__form popup__form-user" name="popup-form" novalidate>
                     <input id="username-input" name="username" type="text" class="popup__input popup__input_type_name"
                         minlength="2" maxlength="40" required>
@@ -47,7 +46,6 @@
                     <span class="useractivity-input-error popup__input-error"></span>
                     <button class="popup__submit" type="submit">Сохранить</button>
                 </form>
-
                 <button class="popup__close" type="button" aria-label="закроем редактор профиля пользователя"></button>
             </div>
         </div>
@@ -55,7 +53,6 @@
         <div class="popup popup-addfoto">
             <div class="popup__container">
                 <h2 class="popup__title">Новое место</h2>
-
                 <form class="popup__form popup__form-add" name="popup-add-place-form" novalidate>
                     <input id="place-input" name="place" type="text" class="popup__input popup__input_type_place"
                         placeholder="Название" minlength="2" maxlength="30" required>
@@ -65,7 +62,6 @@
                     <span class="url-input-error popup__input-error"></span>
                     <button class="popup__submit" type="submit">Создать</button>
                 </form>
-
                 <button class="popup__close" type="button"
                     aria-label="закроем редактор добавления нового места"></button>
             </div>
@@ -73,10 +69,10 @@
 
     </div>
 
-    <div class="popup overlay">
-        <div class="overlay__container">
-            <img class="overlay__big-foto" src="#" alt="увеличенное фото">
-            <h2 class="overlay__caption"></h2>
+    <div class="popup popup-image">
+        <div class="popup-image__container">
+            <img class="popup-image__big-foto" src="#" alt="увеличенное фото">
+            <h2 class="popup-image__caption"></h2>
             <button class="popup__close" type="button" aria-label="закроем увеличенную фотографию"></button>
         </div>
     </div>
@@ -90,8 +86,8 @@
         </div>
     </template>
 
-    <script src="./script/validate.js"></script>
     <script src="./script/index.js"></script>
+    <script src="./script/validate.js"></script>
 
 </body>
 </html>
