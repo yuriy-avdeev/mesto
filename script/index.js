@@ -63,7 +63,7 @@ function takeValue () {
     formElementAboutUser.reset();
     nameInput.value = userName.textContent;
     jobInput.value = userActivity.textContent;
-    setEventListener(popupProfile);
+    // setEventListener(popupProfile);
     openPopup(popupProfile);
 }
 
@@ -77,7 +77,7 @@ function handleFormSubmit (evt) {
 // открытие попапа новой карточки
 buttonPlaceAdd.addEventListener('click', () => {
     popupFormAddNewPlace.reset();
-    setEventListener(popupFormAddNewPlace);
+    // setEventListener(popupFormAddNewPlace);
     openPopup(popupAddFoto);
 });
 

@@ -1,12 +1,3 @@
-const setting = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__submit',
-    inactiveButtonClass: 'popup__submit_inactive',
-    inputErrorClass: 'popup__input_state_error',
-    errorClass: 'popup__input-error_active',
-}
-
 const hasInvalidInput = (inputList) => {
     return inputList.some(inputElement => {
         return !inputElement.validity.valid;
@@ -14,7 +5,7 @@ const hasInvalidInput = (inputList) => {
 }
 
 // работа с кнопкой
-const toggleButtonView = (inputList, buttonElement) => {
+const toggleButtonView = (inputList, buttonElement, setting) => {
     if (hasInvalidInput(inputList)) {
         buttonElement.classList.add(setting.inactiveButtonClass);
         buttonElement.setAttribute('disabled', true);
@@ -24,59 +15,72 @@ const toggleButtonView = (inputList, buttonElement) => {
     }
 }
 
-const showInputError = (formElement, inputElement, errorMessage) => {
+const showInputError = (formElement, inputElement, errorMessage, setting) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     errorElement.textContent = errorMessage;
     inputElement.classList.add(setting.inputErrorClass);
     errorElement.classList.add(setting.errorClass);
 }
 
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, setting) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(setting.inputErrorClass);
     errorElement.classList.remove(setting.errorClass)
     errorElement.textContent = '';
 }
 
-const isValid = (formElement, inputElement) => {
+const isValid = (formElement, inputElement, setting) => {
     if (!inputElement.validity.valid) {
-        showInputError(formElement, inputElement, inputElement.validationMessage);
+        showInputError(formElement, inputElement, inputElement.validationMessage, setting);
     } else {
-        hideInputError(formElement, inputElement);
+        hideInputError(formElement, inputElement, setting);
     }
 }
 
-const setEventListener = (formElement) => {
-    console.log(setting);
-
+const setEventListener = (formElement, setting) => {
     const inputList = Array.from(formElement.querySelectorAll(setting.inputSelector));
     const buttonElement = formElement.querySelector(setting.submitButtonSelector);
-    toggleButtonView(inputList, buttonElement);
+    toggleButtonView(inputList, buttonElement, setting);
 
     // слушатель reset - для очищения текста ошибок перед открытием формы (openPopup)
     formElement.addEventListener('reset', () => {
         inputList.forEach((inputElement) => {
-            hideInputError(formElement, inputElement)
+            hideInputError(formElement, inputElement, setting)
         });
-        toggleButtonView(inputList, buttonElement);
+        toggleButtonView(inputList, buttonElement, setting);
     });
 
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', () => {
-            isValid(formElement, inputElement);
-            toggleButtonView(inputList, buttonElement);
+            isValid(formElement, inputElement, setting);
+            toggleButtonView(inputList, buttonElement, setting);
         });
     });
 }
 
-const enableValidation = (setting) => {
+const enableValidation = (setting = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__submit',
+    inactiveButtonClass: 'popup__submit_inactive',
+    inputErrorClass: 'popup__input_state_error',
+    errorClass: 'popup__input-error_active',
+    buttonClickOpenPopup: ('.profile__click'),
+    }) => {
+    const buttonOpenPopupList = Array.from(document.querySelectorAll(setting.buttonClickOpenPopup));
     const formList = Array.from(document.querySelectorAll(setting.formSelector));
-    formList.forEach(formElement => {
-        formElement.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-            setEventListener(formElement);
+    buttonOpenPopupList.forEach(buttonOpenPopup => {
+        buttonOpenPopup.addEventListener('click', () => {
+            formList.forEach(formElement => {
+                setEventListener(formElement, setting);
+                // if (buttonOpenPopup === buttonPlaceAdd) {
+                //     setEventListener(popupFormAddNewPlace);
+                // }  else if (buttonOpenPopup === buttonEditProfile) {
+                //     setEventListener(formElementAboutUser);
+                // }
+            });
         });
     });
 }
 
-enableValidation(setting);
+enableValidation();
