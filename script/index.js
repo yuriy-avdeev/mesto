@@ -1,3 +1,5 @@
+import Card from './Card.js';
+
 const buttonEditProfile = document.querySelector('.profile__editor-popup');
 const popupProfile = document.querySelector('.profile-popup');
 const popupList = Array.from(document.querySelectorAll('.popup'));
@@ -11,7 +13,7 @@ const profile = document.querySelector('.places');
 // форма добавления нового места:
 const buttonPlaceAdd = document.querySelector('.profile__add');
 const popupAddFoto = document.querySelector('.popup-addfoto');
-const popupFormAddNewPlace = document.querySelector('.popup__form-add')
+const popupFormAddNewPlace = document.querySelector('.popup__form-add');
 const popupInputPlace = document.querySelector('.popup__input_type_place');
 const popupInputUrl = document.querySelector('.popup__input_type_url');
 // template:
@@ -30,13 +32,13 @@ const openPopup = (someOverlay) => {
 }
 
 //закроем попап
-function closePopup(someOverlay) {
+const closePopup = (someOverlay) => {
     someOverlay.classList.remove('popup_active');
     document.removeEventListener('keydown', closeByEscape);
 }
 
 // закроем попап с esc
-function closeByEscape(evt) {
+function closeByEscape (evt) {
     if (evt.key === 'Escape') {
         const openedPopup = document.querySelector('.popup_active')
         closePopup(openedPopup);
@@ -63,7 +65,6 @@ function takeValue () {
     formElementAboutUser.reset();
     nameInput.value = userName.textContent;
     jobInput.value = userActivity.textContent;
-    // setEventListener(popupProfile);
     openPopup(popupProfile);
 }
 
@@ -77,7 +78,6 @@ function handleFormSubmit (evt) {
 // открытие попапа новой карточки
 buttonPlaceAdd.addEventListener('click', () => {
     popupFormAddNewPlace.reset();
-    // setEventListener(popupFormAddNewPlace);
     openPopup(popupAddFoto);
 });
 
@@ -154,14 +154,17 @@ initialCards.forEach(item => {
     profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
 });
 
-// template - добавление новой карточки
-function handleFormAddSubmit (evt) {
-    evt.preventDefault(); 
-    const imageLink = popupInputUrl.value;
-    const imageName = popupInputPlace.value;
-    profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
+// добавление карточки
+popupFormAddNewPlace.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
+    const card = new Card({
+        image: popupInputUrl.value,
+        text: popupInputPlace.value,
+        }, '#photo-place');
+
+    const cardElement = card.generateCard();
+    profile.prepend(cardElement);
     closePopup(popupAddFoto);
-};
-
-popupFormAddNewPlace.addEventListener('submit', handleFormAddSubmit);
+    // closeByEscape();
+});
