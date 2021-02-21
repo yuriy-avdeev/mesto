@@ -13,7 +13,7 @@ export default class {
         this._buttonElement = this._formElement.querySelector(this._submitButtonSelector); 
         this._toggleButtonView(this._inputList, this._buttonElement);
 
-        // слушатель reset - для очищения текста ошибок перед открытием формы (openPopup)
+        // слушатель reset - очищение текста ошибок перед открытием формы (openPopup)
         this._formElement.addEventListener('reset', () => {
             this._inputList.forEach(inputElement => {
                 this._hideInputError(inputElement)
@@ -45,10 +45,8 @@ export default class {
     }
 
     _hideInputError(inputElement) {
-        // находим элемент ошибки - спан под инпутом
         this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.remove( this._inputErrorClass);
-        //
         this._errorElement.classList.remove(this._errorClass)
         this._errorElement.textContent = '';
     }
@@ -59,7 +57,6 @@ export default class {
         });
     }
 
-    // работа с кнопкой
     _toggleButtonView() {
         if (this._hasInvalidInput()) {
             this._buttonElement.classList.add(this._inactiveButtonClass);

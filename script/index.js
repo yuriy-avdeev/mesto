@@ -19,41 +19,33 @@ const popupInputPlace = document.querySelector('.popup__input_type_place');
 const popupInputUrl = document.querySelector('.popup__input_type_url');
 // template:
 const addPlace = document.querySelector('#photo-place').content;
-const boxPhoto = addPlace.querySelector('.photo-place');
-// большое фото
-const popupImage = document.querySelector('.popup-image');
-const bigImage = popupImage.querySelector('.popup-image__big-foto');
-const bigCaption = popupImage.querySelector('.popup-image__caption');
 
-
-// откроем попап
 const openPopup = (someOverlay) => {
     someOverlay.classList.add('popup_active')
     document.addEventListener('keydown', closeByEscape)
 }
 
-//закроем попап
 const closePopup = () => {
     const popupActive = document.querySelector('.popup_active');
     popupActive.classList.remove('popup_active');
     document.removeEventListener('keydown', closeByEscape);
 }
 
-// закроем попап с esc
+// закроем попап - esc
 function closeByEscape (evt) {
     if (evt.key === 'Escape') {
         closePopup();
     }
 }
 
-// закроем попап кликом по крестику
+// закроем попап - крестик
 buttonsClosePopup.forEach(button => {
     button.addEventListener('click', (evt) => {
         closePopup();
     });
 });
 
-// закроем попап кликом по полю
+// закроем попап - поле
 popupList.forEach(popupItem => {
     popupItem.addEventListener('click', (evt) => {
         if (evt.target === evt.currentTarget) {
@@ -87,7 +79,6 @@ buttonEditProfile.addEventListener('click', takeValue);
 
 formElementAboutUser.addEventListener('submit', handleFormSubmit);
 
-// 6 новых мест
 const initialCards = [
     {
     name: 'Архыз',
@@ -115,47 +106,18 @@ const initialCards = [
     }
 ];
 
-const likeCard = (button) => {
-    button.addEventListener('click', () => {
-        button.classList.toggle('photo-place__like_click');
-    });
-};
-
-const deleteCard = (button) => {
-    button.addEventListener('click', function (evt) {
-        evt.target.closest('.photo-place').remove();
-    });
-};
-
-const makePhotoPlace = (template, imageLink, imageName) => {
-    const newPlace = template.cloneNode(true);
-    const foto = newPlace.querySelector('.photo-place__image');
-    const caption = newPlace.querySelector('.photo-place__caption'); 
-    const buttonLikeCard = newPlace.querySelector('.photo-place__like');
-    const buttonDeleteCard = newPlace.querySelector('.photo-place__basket');
-    foto.src = imageLink;
-    caption.textContent = imageName;
-
-    likeCard(buttonLikeCard);
-    deleteCard(buttonDeleteCard);
-
-// попап с увеличенным фото
-    foto.addEventListener('click', () => {
-        openPopup(popupImage);
-        bigImage.src = imageLink;
-        bigCaption.textContent = imageName;
-    });
-    return newPlace;
-};
-
-// добавление 6и карточек при загрузке
+// добавление 6и карточек
 initialCards.forEach(item => {
-    const imageLink = item.link;
-    const imageName = item.name;
-    profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
+    const firstCards = new Card({
+        text: item.name,
+        image: item.link,
+    }, addPlace, closeByEscape);
+
+    firstCards.generateCard();
+    profile.prepend(firstCards.generateCard());
 });
 
-// добавление НОВОЙ карточки
+// добавление новой карточки
 popupFormAddNewPlace.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -169,13 +131,14 @@ popupFormAddNewPlace.addEventListener('submit', (evt) => {
     closePopup();
 });
 
+// валидация
 function validation() {
     const data = {
         inputSelector: '.popup__input',
         submitButtonSelector: '.popup__submit',
         inactiveButtonClass: 'popup__submit_inactive',
         inputErrorClass: 'popup__input_state_error',
-        errorClass: 'popup__input-error_active', // красный спан с ошибкой
+        errorClass: 'popup__input-error_active',
         buttonClickOpenPopup: '.profile__click',
         }
 
