@@ -1,4 +1,5 @@
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 const buttonEditProfile = document.querySelector('.profile__editor-popup');
 const popupProfile = document.querySelector('.profile-popup');
@@ -27,28 +28,28 @@ const bigCaption = popupImage.querySelector('.popup-image__caption');
 
 // откроем попап
 const openPopup = (someOverlay) => {
-    someOverlay.classList.add('popup_active');
-    document.addEventListener('keydown', closeByEscape);
+    someOverlay.classList.add('popup_active')
+    document.addEventListener('keydown', closeByEscape)
 }
 
 //закроем попап
-const closePopup = (someOverlay) => {
-    someOverlay.classList.remove('popup_active');
+const closePopup = () => {
+    const popupActive = document.querySelector('.popup_active');
+    popupActive.classList.remove('popup_active');
     document.removeEventListener('keydown', closeByEscape);
 }
 
 // закроем попап с esc
 function closeByEscape (evt) {
     if (evt.key === 'Escape') {
-        const openedPopup = document.querySelector('.popup_active')
-        closePopup(openedPopup);
+        closePopup();
     }
 }
 
 // закроем попап кликом по крестику
 buttonsClosePopup.forEach(button => {
     button.addEventListener('click', (evt) => {
-        closePopup(evt.target.closest('.popup'));
+        closePopup();
     });
 });
 
@@ -56,7 +57,7 @@ buttonsClosePopup.forEach(button => {
 popupList.forEach(popupItem => {
     popupItem.addEventListener('click', (evt) => {
         if (evt.target === evt.currentTarget) {
-            closePopup(popupItem);
+            closePopup();
         }
     });
 });
@@ -72,7 +73,7 @@ function handleFormSubmit (evt) {
     evt.preventDefault(); 
     userName.textContent = nameInput.value;
     userActivity.textContent = jobInput.value;
-    closePopup(popupProfile);
+    closePopup();
 }
 
 // открытие попапа новой карточки
@@ -114,13 +115,13 @@ const initialCards = [
     }
 ];
 
-function likeCard (button) {
+const likeCard = (button) => {
     button.addEventListener('click', () => {
         button.classList.toggle('photo-place__like_click');
     });
 };
 
-function deleteCard (button) {
+const deleteCard = (button) => {
     button.addEventListener('click', function (evt) {
         evt.target.closest('.photo-place').remove();
     });
@@ -147,24 +148,50 @@ const makePhotoPlace = (template, imageLink, imageName) => {
     return newPlace;
 };
 
-// добавление 6и карточек
+// добавление 6и карточек при загрузке
 initialCards.forEach(item => {
     const imageLink = item.link;
     const imageName = item.name;
     profile.prepend(makePhotoPlace(boxPhoto, imageLink, imageName));
 });
 
-// добавление карточки
+// добавление НОВОЙ карточки
 popupFormAddNewPlace.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const card = new Card({
         image: popupInputUrl.value,
         text: popupInputPlace.value,
-        }, '#photo-place');
+        }, addPlace, closeByEscape);
 
     const cardElement = card.generateCard();
     profile.prepend(cardElement);
-    closePopup(popupAddFoto);
-    // closeByEscape();
+    closePopup();
 });
+
+function validation() {
+    const data = {
+        inputSelector: '.popup__input',
+        submitButtonSelector: '.popup__submit',
+        inactiveButtonClass: 'popup__submit_inactive',
+        inputErrorClass: 'popup__input_state_error',
+        errorClass: 'popup__input-error_active', // красный спан с ошибкой
+        buttonClickOpenPopup: '.profile__click',
+        }
+
+    const buttonOpenPopupList = Array.from(document.querySelectorAll(data.buttonClickOpenPopup));
+
+    buttonOpenPopupList.forEach(buttonOpenPopup => {
+        buttonOpenPopup.addEventListener('click', () => {
+            if (buttonOpenPopup === buttonPlaceAdd) { 
+                const validFormNewCard = new FormValidator(data, popupFormAddNewPlace)
+                validFormNewCard.enableValidation();
+            }  else if (buttonOpenPopup === buttonEditProfile) {
+                const validFormAboutUser = new FormValidator(data, formElementAboutUser)
+                validFormAboutUser.enableValidation();
+            }
+        });
+    });
+}
+
+validation();
