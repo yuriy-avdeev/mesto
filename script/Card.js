@@ -1,9 +1,10 @@
 export default class {
-    constructor(data, cardSelector, closeByEscape) {
+    constructor(data, cardSelector, closeByEscape, handleCardClick) {
         this._text = data.text;
         this._image = data.image;
         this._cardSelector = cardSelector;
         this._closeByEscape = closeByEscape;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
@@ -22,7 +23,7 @@ export default class {
     // слушатели
     _setEventListeners() {
         this._element.querySelector('.photo-place__image').addEventListener('click', () => {
-            this._hanleClickFoto();
+            this._handleCardClick(this._image, this._text);
         });
         this._element.querySelector('.photo-place__like').addEventListener('click', () => {
             this._likeCard(this._element.querySelector('.photo-place__like'));
@@ -39,12 +40,5 @@ export default class {
 
     _deleteCard = (evt) => {
         evt.target.closest('.photo-place').remove();
-    }
-
-    _hanleClickFoto() {
-        document.querySelector('.popup-image').classList.toggle('popup_active');
-        document.querySelector('.popup-image__big-foto').src = this._image;
-        document.querySelector('.popup-image__caption').textContent = this._text;
-        document.addEventListener('keydown', this._closeByEscape);
     }
 }
