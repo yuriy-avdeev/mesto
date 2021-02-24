@@ -4,7 +4,6 @@ import FormValidator from './FormValidator.js';
 const buttonEditProfile = document.querySelector('.profile__editor-popup');
 const popupProfile = document.querySelector('.profile-popup');
 const popupList = Array.from(document.querySelectorAll('.popup'));
-const buttonOpenPopupList = Array.from(document.querySelectorAll('.profile__click'));
 const buttonClosePopupList = Array.from(document.querySelectorAll('.popup__close'));
 const popupFormAboutUser = document.querySelector('.popup__form-user');
 const nameInput = popupFormAboutUser.querySelector('.popup__input_type_name');
@@ -46,7 +45,7 @@ function closeByEscape (evt) {
 
 // закроем попап - крестик
 buttonClosePopupList.forEach(button => {
-    button.addEventListener('click', (evt) => {
+    button.addEventListener('click', () => {
         closePopup();
     });
 });
@@ -152,20 +151,14 @@ function validation() {
         inactiveButtonClass: 'popup__submit_inactive',
         inputErrorClass: 'popup__input_state_error',
         errorClass: 'popup__input-error_active',
+        buttonOpenPopupList: Array.from(document.querySelectorAll('.profile__click')),
     }
 
-    const validFormNewCard = new FormValidator(data, popupFormAddNewPlace);
-    const validFormAboutUser = new FormValidator(data, popupFormAboutUser);
-
-    buttonOpenPopupList.forEach(buttonOpenPopup => {
-        buttonOpenPopup.addEventListener('click', () => {
-            if (buttonOpenPopup === buttonPlaceAdd) { 
-                validFormNewCard.enableValidation();
-            }  else if (buttonOpenPopup === buttonEditProfile) {
-                validFormAboutUser.enableValidation();
-            }
-        });
-    });
+    const validFormNewCard = new FormValidator(data, popupFormAddNewPlace); 
+    validFormNewCard.enableValidation(); 
+    
+    const validFormAboutUser = new FormValidator(data, popupFormAboutUser); 
+    validFormAboutUser.enableValidation(); 
 }
 
 validation();
