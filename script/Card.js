@@ -1,9 +1,8 @@
 export default class {
-    constructor(data, cardSelector, closeByEscape, handleCardClick) {
+    constructor(data, cardSelector, handleCardClick) {
         this._text = data.text;
         this._image = data.image;
         this._cardSelector = cardSelector;
-        this._closeByEscape = closeByEscape;
         this._handleCardClick = handleCardClick;
     }
 
