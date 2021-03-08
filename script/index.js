@@ -57,13 +57,6 @@ const initialCards = [
     }
 ];
 
-// открытие попапа новой карточки - через класс ==================================================
-buttonPlaceAdd.addEventListener('click', () => {
-    popupFormAddNewPlace.reset();
-    const popupCard = new Popup(popupAddFoto);
-    popupCard.open();
-});
-
 //слушатель в классе Card сюда передает линк и имя карточки, 
 //отсюда содаем экз. попапа и там присваиваем имя и ссылку
 const handleCardClick = (link, name)  =>  {
@@ -92,7 +85,6 @@ const handleSubmitUserInfo = (name, activity) => {
 
 // открытие попапа редактора профиля
 buttonEditProfile.addEventListener('click', () => {
-    popupFormAboutUser.reset();
     nameInput.value = userName.textContent;
     activityInput.value = userActivity.textContent;
 
@@ -102,11 +94,12 @@ buttonEditProfile.addEventListener('click', () => {
 })
 
 // =============================================== отработка сабмита добавления карточки
-const handleSubmitCreateCard = () => {
+const handleSubmitCreateCard = (name, link) => {
+
     const addNewCard = new Section({
-        items: [{ popupInputUrl, popupInputPlace }],
+        items: [{ link, name }], 
         renderer: (someCardData) => {
-            const card = new Card({ image: someCardData.popupInputUrl.value, text: someCardData.popupInputPlace.value },
+            const card = new Card({ image: someCardData.link, text: someCardData.name },
                 addPlace, handleCardClick);
             const cardElement = card.generateCard();
             addNewCard.addItem(cardElement)
@@ -114,19 +107,14 @@ const handleSubmitCreateCard = () => {
     }, cardContainer);
 
     addNewCard.renderItems();
-    const closePopup = new Popup(document.querySelector('.popup_active'))
-    closePopup.close();
 }
 
-// добавление новой карточки
-popupFormAddNewPlace.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    console.log('aaa')
-    handleSubmitCreateCard();
-})
+buttonPlaceAdd.addEventListener('click', () => {
+    const popupCard = new PopupWithForm(handleSubmitCreateCard, popupAddFoto);
+    popupCard.open();
+    popupCard.setEventListeners();
+});
 // ===========================================================================
-
-
 
 // валидация
 function validation() {
