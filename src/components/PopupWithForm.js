@@ -11,7 +11,7 @@ export default class PopupWithForm extends Popup {
         return Array.from(this._somePopup.querySelectorAll('.popup__input'))
     }
     
-    _handleListener = (evt) => {
+    _handleListener(evt) {
         evt.preventDefault()
         const inputsValue = this._getInputValues()
         this._handleSubmit(inputsValue[0].value, inputsValue[1].value)

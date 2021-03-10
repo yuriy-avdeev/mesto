@@ -33,11 +33,11 @@ export default class {
     }
 
     // методы-обработчики
-    _likeCard = (button) => {
+    _likeCard(button) {
         button.classList.toggle('photo-place__like_click');
     }
 
-    _deleteCard = (evt) => {
+    _deleteCard(evt) {
         evt.target.closest('.photo-place').remove();
     }
 }

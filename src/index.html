@@ -11,11 +11,11 @@
 <body class="body">
     <div class="page">
         <header class="header">
-            <img class="header__logo" src="./images/logo.svg" alt="логотип">
+            <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="логотип">
         </header>
 
         <section class="profile">
-            <img class="profile__photo" src="./images/Cousteau.jpg" alt="изображение владельца профиля">
+            <img class="profile__photo" src="<%=require('./images/Cousteau.jpg')%>" alt="изображение владельца профиля">
             <div class="profile__information">
                 <div class="profile__person">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -85,8 +85,6 @@
             <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
         </div>
     </template>
-
-    <script type="module" src="./pages/index.js"></script>
 
 </body>
 </html>
