@@ -1,16 +1,16 @@
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import Section from './Section.js';
-import Popup from './Popup.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+// import Popup from '../../script/Popup.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 const buttonEditProfile = document.querySelector('.profile__editor-popup');
 const popupProfile = document.querySelector('.profile-popup');
-const popupList = Array.from(document.querySelectorAll('.popup'));
-const cardList = Array.from(document.querySelectorAll('.photo-place'));
-const buttonClosePopupList = Array.from(document.querySelectorAll('.popup__close'));
+// const popupList = Array.from(document.querySelectorAll('.popup'));
+// const cardList = Array.from(document.querySelectorAll('.photo-place'));
+// const buttonClosePopupList = Array.from(document.querySelectorAll('.popup__close'));
 const popupFormAboutUser = document.querySelector('.popup__form-user');
 const nameInput = popupFormAboutUser.querySelector('.popup__input_type_name');
 const activityInput = popupFormAboutUser.querySelector('.popup__input_type_activity');
@@ -32,72 +32,72 @@ const bigCaption = popupImage.querySelector('.popup-image__caption');
 // 6 карточек
 const initialCards = [
     {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
     },
     {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
     },
     {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
     },
     {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
     },
     {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
     },
     {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
 ];
 
-//слушатель в классе Card сюда передает линк и имя карточки, 
-//отсюда содаем экз. попапа и там присваиваем имя и ссылку
-const handleCardClick = (link, name)  =>  {
+//слушатель в классе Card
+const handleCardClick = (link, name) => {
     const popupImg = new PopupWithImage(link, name, popupImage);
     popupImg.open();
 }
 
 // 6 начальных карточек - инииц. Card и их добавление 
 const addInitialCard = new Section({
-        items: initialCards,
-        renderer: (someCardData) => {
-            const card = new Card({image: someCardData.link, text: someCardData.name}, 
-                addPlace, handleCardClick);
-            const cardElement = card.generateCard();
-            addInitialCard.addItem(cardElement)
-        }
-    }, cardContainer
+    items: initialCards,
+    renderer: (someCardData) => {
+        const card = new Card({ image: someCardData.link, text: someCardData.name },
+            addPlace, handleCardClick);
+        const cardElement = card.generateCard();
+        addInitialCard.addItem(cardElement)
+    }
+}, cardContainer
 );
 addInitialCard.renderItems();
 
-// =============================================== отработка сабмита инф. о пользователе
+// отработка сабмита инф. о пользователе
 const handleSubmitUserInfo = (name, activity) => {
-    userName.textContent = name;
-    userActivity.textContent = activity;
+    const userInfo = new UserInfo(userName, userActivity)
+    userInfo.getUserInfo()
+    nameInput.value = userInfo.getUserInfo().name
+    activityInput.value = userInfo.getUserInfo().activity
+    userInfo.setUserInfo(name, activity)
 };
 
 // открытие попапа редактора профиля
 buttonEditProfile.addEventListener('click', () => {
+    const popupForm = new PopupWithForm(handleSubmitUserInfo, popupProfile)
     nameInput.value = userName.textContent;
     activityInput.value = userActivity.textContent;
-
-    const popupForm = new PopupWithForm(handleSubmitUserInfo, popupProfile);
     popupForm.open()
     popupForm.setEventListeners()
 })
 
-// =============================================== отработка сабмита добавления карточки
+// отработка сабмита добавления карточки
 const handleSubmitCreateCard = (name, link) => {
-
     const addNewCard = new Section({
-        items: [{ link, name }], 
+        items: [{ link, name }],
         renderer: (someCardData) => {
             const card = new Card({ image: someCardData.link, text: someCardData.name },
                 addPlace, handleCardClick);
@@ -114,7 +114,6 @@ buttonPlaceAdd.addEventListener('click', () => {
     popupCard.open();
     popupCard.setEventListeners();
 });
-// ===========================================================================
 
 // валидация
 function validation() {
@@ -127,10 +126,10 @@ function validation() {
         buttonOpenPopupList: Array.from(document.querySelectorAll('.profile__click')),
     }
 
-    const validFormNewCard = new FormValidator(data, popupFormAddNewPlace); 
-    validFormNewCard.enableValidation(); 
-    
-    const validFormAboutUser = new FormValidator(data, popupFormAboutUser); 
-    validFormAboutUser.enableValidation(); 
+    const validFormNewCard = new FormValidator(data, popupFormAddNewPlace);
+    validFormNewCard.enableValidation();
+
+    const validFormAboutUser = new FormValidator(data, popupFormAboutUser);
+    validFormAboutUser.enableValidation();
 }
 validation();

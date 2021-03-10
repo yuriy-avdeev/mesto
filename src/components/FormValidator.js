@@ -71,9 +71,6 @@ export default class {
     } 
 
     _toggleButtonView() { 
-
-        console.log(this._hasInvalidInput())
-
         if (this._hasInvalidInput()) { 
             this._buttonElement.classList.add(this._inactiveButtonClass); 
             this._buttonElement.setAttribute('disabled', true); 
