@@ -22,14 +22,14 @@ const cardContainer = document.querySelector('.places');
 const buttonPlaceAdd = document.querySelector('.profile__add');
 const popupAddFoto = document.querySelector('.popup-addfoto');
 const popupFormAddNewPlace = document.querySelector('.popup__form-add');
-const popupInputPlace = document.querySelector('.popup__input_type_place');
-const popupInputUrl = document.querySelector('.popup__input_type_url');
-// template:
+// const popupInputPlace = document.querySelector('.popup__input_type_place');
+// const popupInputUrl = document.querySelector('.popup__input_type_url');
+// // template:
 const addPlace = document.querySelector('#photo-place').content;
 // увеличенная карточка
 const popupImage = document.querySelector('.popup-image');
-const bigImage = popupImage.querySelector('.popup-image__big-foto');
-const bigCaption = popupImage.querySelector('.popup-image__caption');
+// const bigImage = popupImage.querySelector('.popup-image__big-foto');
+// const bigCaption = popupImage.querySelector('.popup-image__caption');
 // 6 карточек
 const initialCards = [
     {
@@ -64,7 +64,7 @@ const handleCardClick = (link, name) => {
     popupImg.open();
 }
 
-// 6 начальных карточек - инииц. Card и их добавление 
+// 6 начальных карточек - иниц. Card и их добавление 
 const addInitialCard = new Section({
     items: initialCards,
     renderer: (someCardData) => {
@@ -106,7 +106,6 @@ const handleSubmitCreateCard = (name, link) => {
             addNewCard.addItem(cardElement)
         }
     }, cardContainer);
-
     addNewCard.renderItems();
 }
 
