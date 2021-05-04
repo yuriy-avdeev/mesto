@@ -23,10 +23,6 @@ export default class {
             })
         })
 
-        // на reset не работает, т.к. событие reset идет раньше присвоения значениий => 
-        // кнопка неактивна (логика ее валидации запускается на пустые поля - имя и профессия)
-        // по 2й форме - не разобрался
-        
         // this._formElement.addEventListener('reset', () => {
         //     this._inputList.forEach(input => {
         //         this._hideInputError(input);
@@ -71,6 +67,9 @@ export default class {
     } 
 
     _toggleButtonView() { 
+
+        console.log(this._hasInvalidInput())
+
         if (this._hasInvalidInput()) { 
             this._buttonElement.classList.add(this._inactiveButtonClass); 
             this._buttonElement.setAttribute('disabled', true); 
