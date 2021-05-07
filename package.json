@@ -1,0 +1,40 @@
+{
+  "name": "mesto",
+  "version": "0.0.1",
+  "description": "Вы можете ознакомиться c подготовленной мною интерактивной веб-страницей [по этой ссылке](https://yuryavdeev.github.io/mesto).   Данный проект выполнен в рамках учебного процесса совместно с [Яндекс.Практикум](https://praktikum.yandex.ru/) с использованием возможностей HTML, CSS и JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuryavdeev/mesto.git"
+  },
+  "keywords": [],
+  "author": "yury_avdeev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuryavdeev/mesto/issues"
+  },
+  "homepage": "https://github.com/yuryavdeev/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "autoprefixer": "^10.2.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "css-loader": "^5.2.4",
+    "cssnano": "^5.0.2",
+    "html-webpack-plugin": "^5.3.1",
+    "mini-css-extract-plugin": "^1.6.0",
+    "postcss-loader": "^5.2.0",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "core-js": "^3.11.2",
+    "rimraf": "^3.0.2"
+  }
+}
