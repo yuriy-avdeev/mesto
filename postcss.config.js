@@ -8,6 +8,6 @@ module.exports = {
     [
         autoprefixer,   // подключите autoprefixer
         cssnano({ preset: 'default' })   // cssnano при подключении передаем объект опций {preset: default} - т.е. нужно использовать
-                                                       // стандартные настройки минификации
+  // стандартные настройки минификации
     ]
 };
