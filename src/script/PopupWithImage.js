@@ -7,5 +7,4 @@ export default class extends Popup {
         this._popup.querySelector('.popup-image__caption').textContent =  name;
         super.setEventListeners();
     }
-
 }

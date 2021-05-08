@@ -12,14 +12,14 @@ export default class {
     enableValidation() {
         this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector)); 
         this._buttonElement = this._formElement.querySelector(this._submitButtonSelector); 
-        this._toggleButtonView(); // добавил сюда, чтобы срабатывал при каждом открытии (не только 1-й раз)
+        this._toggleButtonView(); 
 
         this._buttonOpenPopupList.forEach(button => {
             button.addEventListener('click', () => {
                 this._inputList.forEach(input => {
                     this._hideInputError(input);
                 });
-                this._toggleButtonView(); // добавил сюда, чтобы срабатывал при каждом открытии (не только 1-й раз)
+                this._toggleButtonView();
             })
         })
 

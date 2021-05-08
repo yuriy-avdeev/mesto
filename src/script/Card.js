@@ -16,10 +16,10 @@ export default class {
         this._setEventListeners();
         this._element.querySelector('.photo-place__image').src = this._image;
         this._element.querySelector('.photo-place__caption').textContent = this._text;
+        this._element.querySelector('.photo-place__image').alt = 'добавленное пользователем изображение';
         return this._element;
     }
 
-    // слушатели
     _setEventListeners() {
         this._element.querySelector('.photo-place__image').addEventListener('click', () => {
             this._handleCardClick();

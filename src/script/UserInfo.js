@@ -1,20 +1,22 @@
 export default class {
     constructor({nameUserSelector, activityUserSelector}) {
-        this._userName = document.querySelector(nameUserSelector).textContent;
-        this._userActivity = document.querySelector(activityUserSelector).textContent;
+        this._nameUserSelector = nameUserSelector;
+        this._activityUserSelector = activityUserSelector;
     }
 
     getUserInfo() {
-        const userInfo = {}   // уточнить порядок вызова данных - м.б. после присвоения
-        userInfo.name = this._userName;
-        userInfo.activity = this._userActivity;
-        return userInfo
+        const userInfo = {};
+        userInfo.name = document.querySelector(this._nameUserSelector).textContent;
+        userInfo.activity = document.querySelector(this._activityUserSelector).textContent;
+        return userInfo  //данные пользователя - подставить в форму при открытии
     }
 
-    setUserInfo(userNameInInput, userActivityInInput) { // по сабмиту?
-        this._userName = userNameInInput;
-        this._userActivity = userActivityInInput;
+    // принимает новые данные пользователя и добавляет их на страницу в ф.-колбэке
+    setUserInfo(userNameInInput, userActivityInInput) {
+        document.querySelector(this._nameUserSelector).textContent = userNameInInput;
+        document.querySelector(this._activityUserSelector).textContent = userActivityInInput;
     }
 }
 
-//  публичный метод setUserInfo, который принимает новые данные пользователя и добавляет их на страницу.
+
+// в конструктор - объект с селекторами двух html-элементов: имени пользователя и информации о себе.
