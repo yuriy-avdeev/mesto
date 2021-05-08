@@ -1,12 +1,11 @@
-import Card from './script/Card.js';
-import FormValidator from './script/FormValidator.js';
-import Section from './script/Section.js';
-import Popup from './script/Popup.js';
-import PopupWithImage from './script/PopupWithImage.js';
-import PopupWithForm from './script/PopupWithForm.js';
-import UserInfo from './script/UserInfo.js';
-
-import './pages/index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import Popup from '../components/Popup.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
 
 // форма редактирования профиля
 const buttonEditProfile = document.querySelector('.profile__editor-popup');
