@@ -4,6 +4,10 @@ export default class {
         this._image = data.image;
         this._cardTemplate = cardTemplate;
         this._handleCardClick = handleCardClick;
+        this._element = this._getTemplate();
+        this._placeWithImage = this._element.querySelector('.photo-place__image');
+        this._placeWithCaption = this._element.querySelector('.photo-place__caption');
+
     }
 
     _getTemplate() {
@@ -11,12 +15,12 @@ export default class {
         return cardElement;
     }
 
+
     generateCard() {
-        this._element = this._getTemplate();
         this._setEventListeners();
-        this._element.querySelector('.photo-place__image').src = this._image;
-        this._element.querySelector('.photo-place__caption').textContent = this._text;
-        this._element.querySelector('.photo-place__image').alt = 'добавленное пользователем изображение';
+        this._placeWithImage.src = this._image;
+        this._placeWithCaption.textContent = this._text;
+        this._placeWithImage.alt = 'добавленное пользователем изображение';
         return this._element;
     }
 

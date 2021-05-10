@@ -1,22 +1,19 @@
-export default class {
-    constructor({nameUserSelector, activityUserSelector}) {
-        this._nameUserSelector = nameUserSelector;
-        this._activityUserSelector = activityUserSelector;
+export default class { // в конструктор - объект с селекторами двух html-элементов: имени пользователя и информации о себе
+    constructor({nameUserSelector, activityUserSelector}) { 
+        this._name = document.querySelector(nameUserSelector);
+        this._activity = document.querySelector(activityUserSelector);
     }
 
     getUserInfo() {
         const userInfo = {};
-        userInfo.name = document.querySelector(this._nameUserSelector).textContent;
-        userInfo.activity = document.querySelector(this._activityUserSelector).textContent;
+        userInfo.name = this._name.textContent;
+        userInfo.activity = this._activity.textContent;
         return userInfo  //данные пользователя - подставить в форму при открытии
     }
 
     // принимает новые данные пользователя и добавляет их на страницу в ф.-колбэке
     setUserInfo(userNameInInput, userActivityInInput) {
-        document.querySelector(this._nameUserSelector).textContent = userNameInInput;
-        document.querySelector(this._activityUserSelector).textContent = userActivityInInput;
+        this._name.textContent = userNameInInput;
+        this._activity.textContent = userActivityInInput;
     }
 }
-
-
-// в конструктор - объект с селекторами двух html-элементов: имени пользователя и информации о себе.

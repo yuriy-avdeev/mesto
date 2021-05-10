@@ -1,11 +1,11 @@
 export default class {
-    constructor(data, formElement) {
-        this._inputSelector = data.inputSelector;
-        this._submitButtonSelector = data.submitButtonSelector;
-        this._inactiveButtonSelector = data.inactiveButtonSelector;
-        this._inputErrorSelector = data.inputErrorSelector;
-        this._errorMessageSelector = data.errorMessageSelector;
-        this._buttonOpenPopupList = data.buttonOpenPopupList;
+    constructor(valiadationConfig, formElement) {
+        this._inputSelector = valiadationConfig.inputSelector;
+        this._submitButtonSelector = valiadationConfig.submitButtonSelector;
+        this._inactiveButtonSelector = valiadationConfig.inactiveButtonSelector;
+        this._inputErrorSelector = valiadationConfig.inputErrorSelector;
+        this._errorMessageSelector = valiadationConfig.errorMessageSelector;
+        this._buttonOpenPopupList = valiadationConfig.buttonOpenPopupList;
         this._formElement = formElement;
     }
 
