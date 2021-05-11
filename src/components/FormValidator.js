@@ -69,4 +69,3 @@ export default class {
         } 
     } 
 }
-© 2021 GitHub, Inc.
