@@ -7,7 +7,7 @@ export default class {
 
     renderItems() {
         this._items.forEach(item => {
-          this._renderer(item); // вызываем renderer, передав item
+          this._renderer(item); // вызываем renderer, т.е. создание и отрисовка новых карточек из переданного массива данных
         });
     }
 
