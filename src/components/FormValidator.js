@@ -1,15 +1,15 @@
 export default class {
-    constructor(valiadationConfig, formElement) {
+    constructor(valiadationConfig) {
         this._inputSelector = valiadationConfig.inputSelector;
         this._submitButtonSelector = valiadationConfig.submitButtonSelector;
         this._inactiveButtonSelector = valiadationConfig.inactiveButtonSelector;
         this._inputErrorSelector = valiadationConfig.inputErrorSelector;
         this._errorMessageSelector = valiadationConfig.errorMessageSelector;
         this._buttonOpenPopupList = valiadationConfig.buttonOpenPopupList;
-        this._formElement = formElement;
     }
 
-    enableValidation() {
+    enableValidation(openablePopup) {
+        this._formElement = openablePopup;
         this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector)); 
         this._buttonElement = this._formElement.querySelector(this._submitButtonSelector); 
         this._toggleButtonView(); 
@@ -40,7 +40,7 @@ export default class {
     }
 
     _showInputError(input, errorMessage) {
-        this._errorElement = this._formElement.querySelector(`.${input.id}-error`); //нашли спан и ниже добавили ему сообщение об ошибке
+        this._errorElement = this._formElement.querySelector(`.${input.id}-error`); //нашли спан и ниже - ему сообщение об ошибке
         this._errorElement.textContent = errorMessage;
         input.classList.add(this._inputErrorSelector); // изменили вид инпута
         this._errorElement.classList.add(this._errorMessageSelector); // активировали спан

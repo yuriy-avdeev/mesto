@@ -1,17 +1,21 @@
 export default class {
-    constructor(data, cardTemplate, {handleCardClick}) {
+constructor(data, cardTemplate, {handleCardClick}) {
         this._text = data.text;
         this._image = data.image;
         this._cardTemplate = cardTemplate;
+        this._newCardSelector = '.photo-place';
+        this._placeLikeSelector = 'photo-place__like';
+        this._newCardElement = this._cardTemplate.querySelector(this._newCardSelector);
         this._handleCardClick = handleCardClick;
         this._element = this._getTemplate();
         this._placeWithImage = this._element.querySelector('.photo-place__image');
         this._placeWithCaption = this._element.querySelector('.photo-place__caption');
-
+        this._placeLikeSymbol = this._element.querySelector('.photo-place__like');
+        this._placeBasketSymbol = this._element.querySelector('.photo-place__basket');
     }
 
     _getTemplate() {
-        const cardElement = this._cardTemplate.querySelector('.photo-place').cloneNode(true);
+        const cardElement = this._newCardElement.cloneNode(true);
         return cardElement;
     }
 
@@ -25,23 +29,23 @@ export default class {
     }
 
     _setEventListeners() {
-        this._element.querySelector('.photo-place__image').addEventListener('click', () => {
+        this._placeWithImage.addEventListener('click', () => {
             this._handleCardClick();
         });
-        this._element.querySelector('.photo-place__like').addEventListener('click', () => {
-            this._likeCard(this._element.querySelector('.photo-place__like'));
+        this._placeLikeSymbol.addEventListener('click', () => {
+            this._likeCard(this._placeLikeSymbol);
         });
-        this._element.querySelector('.photo-place__basket').addEventListener('click', (evt) => {
+        this._placeBasketSymbol.addEventListener('click', (evt) => {
             this._deleteCard(evt);
         });
     }
 
     // методы-обработчики
     _likeCard = (button) => {
-        button.classList.toggle('photo-place__like_click');
+        button.classList.toggle(`${this._placeLikeSelector}_click`);
     }
 
     _deleteCard = (evt) => {
-        evt.target.closest('.photo-place').remove();
+        evt.target.closest(this._newCardSelector).remove();
     }
 }

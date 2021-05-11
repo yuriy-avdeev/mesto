@@ -11,37 +11,58 @@ import {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, 
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
     popupFormAddNewFoto, cardTemplate, valiadationConfig, initialCards} from '../utils/utils.js';
 
-
 const popupWithImage = new PopupWithImage(popupWithImageSelector);
-const userInfo = new UserInfo({ nameUserSelector: nameUserSelector, activityUserSelector: activityUserSelector })
+const userInfo = new UserInfo({ nameUserSelector: nameUserSelector, activityUserSelector: activityUserSelector });
+const validForm = new FormValidator(valiadationConfig);
+
+
+const createCard = (item) => {
+    const card = new Card({ image: item.link, text: item.name },
+        cardTemplate,
+        {
+            handleCardClick() {
+                popupWithImage.open(item.link, item.name);
+            }
+        }
+    );
+    const cardElement = card.generateCard();
+    cardList.addItem(cardElement); //?
+}
+
+
+// 6 начальных карточек - инииц. Card и их добавление 
+const cardList = new Section({
+    items: initialCards,
+    renderer: (item) => {
+        createCard(item)
+    }
+}, sectionWithCardSelector);
+
+cardList.renderItems();
 
 
 // попап добавления нового места:
 const popupWithFormAddFoto = new PopupWithForm({
     popupSelector: popupAddFotoSelector,
     handleFormSubmit: (formValues) => {
-        const card = new Card(
-            { image: formValues.url, text: formValues.place },
-            cardTemplate,
-            {
-                handleCardClick() {
-                    popupWithImage.open(formValues.url, formValues.place);
-                }
+        const cardAdded = new Section({
+            items: [formValues],
+            renderer: (item) => {
+                createCard(item)
             }
-        );
-        const cardElement = card.generateCard();
-        document.querySelector(sectionWithCardSelector).prepend(cardElement);
+        }, sectionWithCardSelector);
+        
+        cardAdded.renderItems();
         popupWithFormAddFoto.close();
     }
 });
 
-// ниже отработчик сабмита формы - вызов колбэка (handleFormSubmit: (formValues)) с данными инпутов формы 
-// в артрибуте (объект), где атрибут name (html-элемента) - это ключ, value - значение (см. _getInputValues)):
 popupWithFormAddFoto.setEventListeners(); 
+// выше отработчик сабмита формы - вызов колбэка (handleFormSubmit: (formValues)) с данными инпутов формы 
+// в артрибуте (объект), где атрибут name (html-элемента) - это ключ, value - значение (см. _getInputValues)):
 
 buttonAddNewFoto.addEventListener('click', () => {
-    const validFormAddFoto = new FormValidator(valiadationConfig, popupFormAddNewFoto);
-    validFormAddFoto.enableValidation();
+    validForm.enableValidation(popupFormAddNewFoto);
     popupWithFormAddFoto.open();
 })
 
@@ -60,27 +81,6 @@ popupWithFormAboutUser.setEventListeners();
 buttonEditProfile.addEventListener('click', () => {
     nameInput.value = userInfo.getUserInfo().name;
     jobInput.value = userInfo.getUserInfo().activity;
-    const validFormAboutUser = new FormValidator(valiadationConfig, popupFormAboutUser);
-    validFormAboutUser.enableValidation();
+    validForm.enableValidation(popupFormAboutUser);
     popupWithFormAboutUser.open();
 })
-
-
-// 6 начальных карточек - инииц. Card и их добавление 
-const cardList = new Section({
-    items: initialCards,
-    renderer: (item) => {
-        const card = new Card({ image: item.link, text: item.name },
-            cardTemplate,
-            {
-                handleCardClick () {
-                    popupWithImage.open(item.link, item.name)
-                }
-            }
-        );
-        const cardElement = card.generateCard();
-        cardList.addItem(cardElement);
-    }
-}, sectionWithCardSelector);
-
-cardList.renderItems();
