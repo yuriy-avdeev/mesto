@@ -5,7 +5,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 
-// import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
+import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
 
 import {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,

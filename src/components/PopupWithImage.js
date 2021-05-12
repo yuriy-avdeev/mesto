@@ -5,8 +5,6 @@ export default class extends Popup {
         super(popupSelector);
         this._bigFoto = this._popup.querySelector('.popup-image__big-foto');
         this._bigCaption = this._popup.querySelector('.popup-image__caption');
-        
-        
     }
 
     open(link, name) {
