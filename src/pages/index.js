@@ -7,13 +7,16 @@ import UserInfo from '../components/UserInfo.js';
 
 import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
 
-import {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
+import {
+    popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, valiadationConfig, initialCards} from '../utils/utils.js';
+    popupFormAddNewFoto, cardTemplate, validationConfig, initialCards
+} from '../utils/utils.js';
 
 const popupWithImage = new PopupWithImage(popupWithImageSelector);
 const userInfo = new UserInfo({ nameUserSelector: nameUserSelector, activityUserSelector: activityUserSelector });
-const validForm = new FormValidator(valiadationConfig);
+const addCardFormValidator = new FormValidator(validationConfig, popupFormAddNewFoto);
+const editProfileFormValidator = new FormValidator(validationConfig, popupFormAboutUser);
 
 
 const createCard = (item) => {
@@ -26,15 +29,16 @@ const createCard = (item) => {
         }
     );
     const cardElement = card.generateCard();
-    cardList.addItem(cardElement); //?
+    return cardElement;
 }
 
 
 // 6 начальных карточек - инииц. Card и их добавление 
 const cardList = new Section({
-    items: initialCards,
-    renderer: (item) => {
-        createCard(item)
+    arrayWithDataList: initialCards,
+    renderer: (itemWithData) => {
+        const cardElement = createCard(itemWithData);
+        cardList.addItem(cardElement);
     }
 }, sectionWithCardSelector);
 
@@ -46,25 +50,26 @@ const popupWithFormAddFoto = new PopupWithForm({
     popupSelector: popupAddFotoSelector,
     handleFormSubmit: (formValues) => {
         const cardAdded = new Section({
-            items: [formValues],
-            renderer: (item) => {
-                createCard(item)
+            arrayWithDataList: [formValues],
+            renderer: (itemWithData) => {
+                const cardElement = createCard(itemWithData);
+                cardAdded.addItem(cardElement);
             }
         }, sectionWithCardSelector);
-        
         cardAdded.renderItems();
         popupWithFormAddFoto.close();
     }
 });
 
-popupWithFormAddFoto.setEventListeners(); 
+popupWithFormAddFoto.setEventListeners();
 // выше отработчик сабмита формы - вызов колбэка (handleFormSubmit: (formValues)) с данными инпутов формы 
 // в артрибуте (объект), где атрибут name (html-элемента) - это ключ, value - значение (см. _getInputValues)):
 
 buttonAddNewFoto.addEventListener('click', () => {
-    validForm.enableValidation(popupFormAddNewFoto);
     popupWithFormAddFoto.open();
 })
+
+addCardFormValidator.enableValidation();
 
 
 // попап редактирования профиля:
@@ -81,6 +86,7 @@ popupWithFormAboutUser.setEventListeners();
 buttonEditProfile.addEventListener('click', () => {
     nameInput.value = userInfo.getUserInfo().name;
     jobInput.value = userInfo.getUserInfo().activity;
-    validForm.enableValidation(popupFormAboutUser);
     popupWithFormAboutUser.open();
 })
+
+editProfileFormValidator.enableValidation();

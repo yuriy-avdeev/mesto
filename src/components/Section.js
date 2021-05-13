@@ -1,13 +1,14 @@
 export default class {
-    constructor({items, renderer}, containerSelector) {
-        this._items = items;
+    constructor({arrayWithDataList, renderer}, containerSelector) {
+        this._arrayWithDataList = arrayWithDataList;
         this._renderer = renderer;
         this._container = document.querySelector(containerSelector);
     }
 
     renderItems() {
-        this._items.forEach(item => {
-          this._renderer(item); // вызываем renderer, т.е. создание и отрисовка новых карточек из переданного массива данных
+        this._arrayWithDataList.forEach(itemWithData => {
+          this._renderer(itemWithData); // вызываем renderer - по количеству элементов массива:
+          // т.е. отрисовка новых карточек из переданных в элементе link и name
         });
     }
 

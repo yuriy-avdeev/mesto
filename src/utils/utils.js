@@ -15,7 +15,7 @@ const popupFormAddNewFoto = document.querySelector('.popup__form-add');
 // template
 const cardTemplate = document.querySelector('#photo-place').content;
 
-const valiadationConfig = {
+const validationConfig = {
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__submit',
     inactiveButtonSelector: 'popup__submit_inactive',
@@ -53,4 +53,4 @@ const initialCards = [
 
 export {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, valiadationConfig, initialCards};
+    popupFormAddNewFoto, cardTemplate, validationConfig, initialCards};

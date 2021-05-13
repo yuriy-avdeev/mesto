@@ -1,15 +1,15 @@
 export default class {
-    constructor(valiadationConfig) {
-        this._inputSelector = valiadationConfig.inputSelector;
-        this._submitButtonSelector = valiadationConfig.submitButtonSelector;
-        this._inactiveButtonSelector = valiadationConfig.inactiveButtonSelector;
-        this._inputErrorSelector = valiadationConfig.inputErrorSelector;
-        this._errorMessageSelector = valiadationConfig.errorMessageSelector;
-        this._buttonOpenPopupList = valiadationConfig.buttonOpenPopupList;
+    constructor(validationConfig, formElement) {
+        this._formElement = formElement;
+        this._inputSelector = validationConfig.inputSelector;
+        this._submitButtonSelector = validationConfig.submitButtonSelector;
+        this._inactiveButtonSelector = validationConfig.inactiveButtonSelector;
+        this._inputErrorSelector = validationConfig.inputErrorSelector;
+        this._errorMessageSelector = validationConfig.errorMessageSelector;
+        this._buttonOpenPopupList = validationConfig.buttonOpenPopupList;
     }
 
-    enableValidation(openablePopup) {
-        this._formElement = openablePopup;
+    enableValidation() {
         this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector)); 
         this._buttonElement = this._formElement.querySelector(this._submitButtonSelector); 
         this._toggleButtonView(); 
