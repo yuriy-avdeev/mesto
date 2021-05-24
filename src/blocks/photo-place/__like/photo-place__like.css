@@ -1,6 +1,6 @@
 .photo-place__like {
-    width: 20.76px;
-    height: 18.13px;
+    width: 22px;
+    height: 19px;
     background-image: url(../../../images/like-disabled.svg);
     background-repeat: no-repeat;
     background-color: #fff;
@@ -9,7 +9,7 @@
     border: none;
     outline: none;
     padding:  0;
-    margin: 32px 22px 0 0;
+    /* margin: 32px 22px 0 0; */
     cursor: pointer;
 }
 

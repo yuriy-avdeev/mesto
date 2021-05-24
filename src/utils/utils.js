@@ -1,6 +1,7 @@
 const popupAddFotoSelector = '.popup-addfoto';
 const popupEditProfileSelector = '.profile-popup';
 const popupWithImageSelector = '.popup-image';
+const popupWithConfirmSelector = '.popup-delete';
 const sectionWithCardSelector = '.places';
 const nameUserSelector = '.profile__name';
 const activityUserSelector = '.profile__activity'; 
@@ -53,4 +54,4 @@ const initialCards = [
 
 export {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, validationConfig, initialCards};
+    popupFormAddNewFoto, cardTemplate, validationConfig, initialCards, popupWithConfirmSelector};
