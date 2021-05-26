@@ -7,26 +7,25 @@ import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
-// import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
+import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
 
 import {
     popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, validationConfig, initialCards, popupWithConfirmSelector
+    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, userAvatar,
+    popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, 
 } from '../utils/utils.js';
 
 const popupWithImage = new PopupWithImage(popupWithImageSelector);
 const userInfo = new UserInfo({ nameUserSelector: nameUserSelector, activityUserSelector: activityUserSelector });
 const addCardFormValidator = new FormValidator(validationConfig, popupFormAddNewFoto);
 const editProfileFormValidator = new FormValidator(validationConfig, popupFormAboutUser);
-const popupWithConfirm = new PopupWithConfirm({popupSelector: popupWithConfirmSelector, handleConfirmDelete: (id) => {
-    popupWithConfirm.close();
-
-// Чтобы удалить карточку, отправьте DELETE-запрос:
-// DELETE https://mesto.nomoreparties.co/v1/cohortId/cards/cardId 
-    
-
-    console.log(id)
+const newAvatarFormValidator = new FormValidator(validationConfig, popupAvatarChange);
+const popupWithConfirm = new PopupWithConfirm(popupWithConfirmSelector);
+const api = new Api({
+    url: urlFetch,
+    headers: {
+        authorization: token, 'Content-Type': 'application/json'
     }
 });
 
@@ -36,9 +35,33 @@ const createCard = (item) => {
             handleCardClick() {
                 popupWithImage.open(item.link, item.name);
             },
-            handleBasketClick(id) {
+            handleBasketClick(evt) {  // обр-к клика удаления карточки 
                 popupWithConfirm.open();
-                popupWithConfirm.setEventListeners(id);
+                buttonConfirmDelete.addEventListener('click', () => {
+                    api.deleteCard(item._id) // удалил с сервера
+                        .then(() => {
+                            popupWithConfirm.close();
+                            this.deleteCard(evt); // удалил из DOM
+                        })
+                        .catch(err => console.log(err));
+                })
+                popupWithConfirm.setEventListeners();
+            },
+            counterLikes() {           // вызов по клику лайка. слушатель в Card.js
+                if (cardElement.querySelector(clickedLikeSelector)) {
+                    api.likeCard(item._id)
+                        .then(res => {
+                            // console.log(item)  // объект карточки
+                            cardElement.querySelector(counterLikeSelector).textContent = res.likes.length
+                        })
+                        .catch(err => console.log(err))
+                } else {
+                    api.likeCardCancel(item._id)
+                        .then(res => {
+                            cardElement.querySelector(counterLikeSelector).textContent = res.likes.length
+                        })
+                        .catch(err => console.log(err))
+                }
             }
         }
     );
@@ -46,15 +69,16 @@ const createCard = (item) => {
     return cardElement;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////// вниз
-
-const token = '0077ba4a-e2dd-4b84-9d2b-fc9f32407d03';
-const url = 'https://mesto.nomoreparties.co/v1/cohort-24';
-
-const api = new Api({
-    adress: url,
-    token: token
-});
+// отрисовка процесса загрузки
+function renderLoading(isLoading, buttonSubmit, initialText) {
+    if (isLoading) {
+        buttonSubmit.textContent = 'Сохранение...'
+        // console.log(buttonSubmit.textContent)
+    } else {
+        buttonSubmit.textContent = initialText
+        // console.log(buttonSubmit.textContent)
+    }
+}
 
 api.getCards()
     .then(res => {
@@ -63,7 +87,6 @@ api.getCards()
             arrayWithDataList: newArr,
             renderer: (itemWithData) => {
                 const cardElement = createCard(itemWithData);
-                cardElement.querySelector('.photo-place__like-number').textContent = itemWithData.likes.length
                 cardList.addItem(cardElement);
             }
         }, sectionWithCardSelector);
@@ -71,52 +94,33 @@ api.getCards()
     })
     .catch(err => console.log(err))
 
-
 api.getUser()
     .then(res => {
-        userInfo.setUserInfo(res.name, res.about)
-        document.querySelector('.profile__photo').src = res.avatar
+        userInfo.setUserInfo(res.name, res.about);
+        userAvatar.src = res.avatar;
     })
     .catch(err => console.log(err))
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////// вверх
-
-
-// 6 начальных карточек - инииц. Card и их добавление 
-// const cardList = new Section({
-//     arrayWithDataList: initialCards,
-//     renderer: (itemWithData) => {
-//         const cardElement = createCard(itemWithData);
-//         cardList.addItem(cardElement);
-//     }
-// }, sectionWithCardSelector);
-
-// cardList.renderItems();
-
-
-// попап добавления нового места:
 const popupWithFormAddFoto = new PopupWithForm({
     popupSelector: popupAddFotoSelector,
-    handleFormSubmit: (formValues) => {
-
+    handleFormSubmit: (formValues, buttonSubmit, initialText) => {
+        renderLoading(true, buttonSubmit, initialText)
         const cardAdded = new Section({
             arrayWithDataList: [formValues],
             renderer: (itemWithData) => {
                 api.saveNewCard({ name: itemWithData.name, url: itemWithData.link })
                     .then((cardData) => {
                         const cardElement = createCard(cardData);
-                        console.log(cardAdded)
                         cardAdded.addItem(cardElement);
                     })
                     .catch(err => console.log(err))
+                    .finally(() => {
+                        renderLoading(false, buttonSubmit, initialText)
+                        popupWithFormAddFoto.close();
+                    });
             }
-        },
-
-            sectionWithCardSelector);
+        }, sectionWithCardSelector);
         cardAdded.renderItems();
-        popupWithFormAddFoto.close();
     }
 });
 
@@ -125,21 +129,27 @@ popupWithFormAddFoto.setEventListeners();
 // в артрибуте (объект), где атрибут name (html-элемента) - это ключ, value - значение (см. _getInputValues)):
 
 buttonAddNewFoto.addEventListener('click', () => {
+    addCardFormValidator.enableValidation();
     popupWithFormAddFoto.open();
 })
-
-addCardFormValidator.enableValidation();
 
 // попап редактирования профиля:
 const popupWithFormAboutUser = new PopupWithForm({
     popupSelector: popupEditProfileSelector,
-    handleFormSubmit: (formValues) => {
-        userInfo.setUserInfo(formValues.name, formValues.activity);
+    handleFormSubmit: (formValues, buttonSubmit, initialText) => {
+
+        renderLoading(true, buttonSubmit, initialText)
+
         // ниже метод отправки POSTом серверу новых данных о пользователе
         api.saveUserInfo({ name: formValues.name, activity: formValues.activity })
-        // .catch(err => console.log(err))
-
-        popupWithFormAboutUser.close();
+            .then(res => {
+                userInfo.setUserInfo(res.name, res.about) // в ДОМ добавили имя и работу из ответа сервера
+            }) 
+            .catch(err => console.log(err))
+            .finally(() => {
+                renderLoading(false, buttonSubmit, initialText)
+                popupWithFormAboutUser.close();
+            });
     }
 });
 
@@ -148,7 +158,30 @@ popupWithFormAboutUser.setEventListeners();
 buttonEditProfile.addEventListener('click', () => {
     nameInput.value = userInfo.getUserInfo().name;
     jobInput.value = userInfo.getUserInfo().activity;
+    editProfileFormValidator.enableValidation();
     popupWithFormAboutUser.open();
 })
 
-editProfileFormValidator.enableValidation();
+// попап изма аватара:
+const popupWithFormNewAvatar = new PopupWithForm({
+    popupSelector: popupWithNewAvatarSelector,
+    handleFormSubmit: (formValues, buttonSubmit, initialText) => {
+        renderLoading(true, buttonSubmit, initialText)
+        api.newAvatar(formValues.link)
+            .then(res => {
+                userAvatar.src = res.avatar;
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                renderLoading(false, buttonSubmit, initialText)
+                popupWithFormNewAvatar.close()
+            });
+    }
+});
+
+popupWithFormNewAvatar.setEventListeners();
+
+document.querySelector('.profile__avatar-edit').addEventListener('click', () => {
+    newAvatarFormValidator.enableValidation();
+    popupWithFormNewAvatar.open();
+})

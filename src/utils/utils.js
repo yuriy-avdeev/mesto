@@ -2,9 +2,13 @@ const popupAddFotoSelector = '.popup-addfoto';
 const popupEditProfileSelector = '.profile-popup';
 const popupWithImageSelector = '.popup-image';
 const popupWithConfirmSelector = '.popup-delete';
+const popupWithNewAvatarSelector = '.popup-avatar';
 const sectionWithCardSelector = '.places';
 const nameUserSelector = '.profile__name';
 const activityUserSelector = '.profile__activity'; 
+const counterLikeSelector = '.photo-place__like-number';
+const clickedLikeSelector = '.photo-place__like_click';
+const userAvatar = document.querySelector('.profile__photo');
 // форма редактирования профиля
 const buttonEditProfile = document.querySelector('.profile__editor-popup');
 const popupFormAboutUser = document.querySelector('.popup__form-user');
@@ -16,6 +20,14 @@ const popupFormAddNewFoto = document.querySelector('.popup__form-add');
 // template
 const cardTemplate = document.querySelector('#photo-place').content;
 
+const popupAvatarChange = document.querySelector('.popup__form-avatar-change')
+const popupConfirmDelete = document.querySelector('.popup-delete');
+const buttonConfirmDelete = popupConfirmDelete.querySelector('.popup__submit-confirm');
+
+// информация для API
+const token = '0077ba4a-e2dd-4b84-9d2b-fc9f32407d03';
+const urlFetch = 'https://mesto.nomoreparties.co/v1/cohort-24';
+
 const validationConfig = {
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__submit',
@@ -25,33 +37,7 @@ const validationConfig = {
     buttonOpenPopupList: Array.from(document.querySelectorAll('.profile__click')),
 }
 
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
 export {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, validationConfig, initialCards, popupWithConfirmSelector};
+    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, 
+    popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, userAvatar};

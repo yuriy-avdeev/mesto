@@ -5,19 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Место</title>
-    <link rel="stylesheet" href="./pages/index.css">
+    <!-- <link rel="stylesheet" href="./pages/index.css"> -->
 </head>
 
 <body class="body">
     <div class="page">
         <header class="header">
-            <img class="header__logo" src='./images/logo.svg' alt="логотип">
-            <!-- <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="логотип"> -->
+            <!-- <img class="header__logo" src='./images/logo.svg' alt="логотип"> -->
+            <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="логотип">
         </header>
 
         <section class="profile">
-            <img class="profile__photo" src='./images/Cousteau.jpg' alt="изображение владельца профиля">
-            <!-- <img class="profile__photo" src="<%=require('./images/Cousteau.jpg')%>"  alt="изображение владельца профиля"> -->
+            <div class="profile__avatar-container">
+                <!-- <img class="profile__photo" src='' alt="изображение владельца профиля"> -->
+                <img class="profile__photo" src="<%=require('./images/Cousteau.jpg')%>"  alt="изображение владельца профиля">
+                <!-- <img class="profile__avatar-edit" src='./images/edit-pen.svg' alt="изображение ручки-редактора"> -->
+                <img class="profile__avatar-edit" src="<%=require('./images/edit-pen.svg')%>" alt="изображение ручки-редактора">
+            </div>
             <div class="profile__information">
                 <div class="profile__person">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -87,6 +91,22 @@
         </div>
     </div>
 
+    <div class="popup popup-avatar">
+        <div class="popup__container">
+            <h2 class="popup__title">Обновить аватар</h2>
+
+            <form class="popup__form popup__form-avatar-change" name="popup-avatar-change-form" novalidate>
+                <input id="url-input" name="link" type="url" class="popup__input popup__input_new-avatar"
+                placeholder="Ссылка на изображение" required>
+                <span class="url-input-error popup__input-error"></span>
+                <button class="popup__submit" type="submit">Сохранить</button>
+            </form>
+
+            <button class="popup__close" type="button"
+                aria-label="закроем редактор добавления нового места"></button>
+        </div>
+    </div>
+
     <template id="photo-place">
         <div class="photo-place">
             <img class="photo-place__image" src="#" alt="добавленное пользователем изображение новой карточки">
@@ -99,7 +119,7 @@
         </div>
     </template>
 
-    <script type="module" src="./pages/index.js"></script>
+    <!-- <script type="module" src="./pages/index.js"></script> -->
 
 </body>
 </html>

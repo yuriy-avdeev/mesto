@@ -1,5 +1,5 @@
 export default class {
-    constructor(data, cardTemplate, { handleCardClick, handleBasketClick }) {
+    constructor(data, cardTemplate, { handleCardClick, handleBasketClick, counterLikes }) {
         this._data = data;
         this._cardTemplate = cardTemplate;
         this._newCardSelector = '.photo-place';
@@ -7,20 +7,24 @@ export default class {
         this._newCardElement = this._cardTemplate.querySelector(this._newCardSelector);
         this._handleCardClick = handleCardClick;
         this._handleBasketClick = handleBasketClick; // должен открыть попап с вопросом об удалении
+        this._counterLikes = counterLikes;
         this._element = this._getTemplate();
         this._placeWithImage = this._element.querySelector('.photo-place__image');
         this._placeWithCaption = this._element.querySelector('.photo-place__caption');
         this._placeLikeSymbol = this._element.querySelector('.photo-place__like');
-        this._placeBasketSymbol = this._element.querySelector('.photo-place__basket'); }
+        this._counterLikeElement = this._element.querySelector('.photo-place__like-number');
+        this._placeBasketSymbol = this._element.querySelector('.photo-place__basket'); 
+    }
 
     _getTemplate() {
         if (this._data.owner._id !== "938e46438622e38390dc83dc") {
             const cardElement = this._newCardElement.cloneNode(true);
             cardElement.querySelector('.photo-place__basket').remove(); 
-            // console.log(this._data.owner._id)
+            // console.log(this._data)
             return cardElement;
         } else {
             const cardElement = this._newCardElement.cloneNode(true);
+
             return cardElement;
         }
     }
@@ -29,7 +33,13 @@ export default class {
         this._setEventListeners();
         this._placeWithImage.src = this._data.link;
         this._placeWithCaption.textContent = this._data.name;
+        this._counterLikeElement.textContent = this._data.likes.length
         this._placeWithImage.alt = 'добавленное пользователем изображение';
+        this._data.likes.forEach(user => {
+            if(user._id == "938e46438622e38390dc83dc") {
+                this._placeLikeSymbol.classList.add(`${this._placeLikeSelector}_click`)
+            }
+        });
         return this._element;
     }
 
@@ -41,9 +51,9 @@ export default class {
             this._likeCard(this._placeLikeSymbol);
         });
 
-        if (this._element.querySelector('.photo-place__basket')) {
-            this._placeBasketSymbol.addEventListener('click', () => {
-                this._handleBasketClick(this._data.owner._id);
+        if(this._placeBasketSymbol) {
+            this._placeBasketSymbol.addEventListener('click', (evt) => {
+                this._handleBasketClick(evt);
             });
         }
     }
@@ -51,5 +61,10 @@ export default class {
     // методы-обработчики
     _likeCard = (button) => {
         button.classList.toggle(`${this._placeLikeSelector}_click`);
+        this._counterLikes();
+    }
+
+    deleteCard = (evt) => {
+        evt.target.closest(this._newCardSelector).remove();
     }
 }
