@@ -21,6 +21,7 @@ const popupFormAddNewFoto = document.querySelector('.popup__form-add');
 const cardTemplate = document.querySelector('#photo-place').content;
 
 const popupAvatarChange = document.querySelector('.popup__form-avatar-change')
+const avatarElement = document.querySelector('.profile__avatar-edit');
 const popupConfirmDelete = document.querySelector('.popup-delete');
 const buttonConfirmDelete = popupConfirmDelete.querySelector('.popup__submit-confirm');
 
@@ -39,5 +40,5 @@ const validationConfig = {
 
 export {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, 
+    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, avatarElement, 
     popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, userAvatar};

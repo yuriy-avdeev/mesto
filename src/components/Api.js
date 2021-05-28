@@ -23,7 +23,6 @@ export default class {
         })
             .then((res) => {
                 if (res.ok) {
-                    // console.log('карточка удалена')
                     return res.json()
                 }
                 return Promise.reject(`Ошибка удаления карточки: ${res.statusText}`)
@@ -38,7 +37,6 @@ export default class {
         })
             .then((res) => {
                 if (res.ok) {
-                    // console.log('лайк')
                     return res.json()
                 }
                 return Promise.reject(`Ошибка клика лайк: ${res.statusText}`)
@@ -53,7 +51,6 @@ export default class {
         })
             .then((res) => {
                 if (res.ok) {
-                    // console.log('лайк удален')
                     return res.json()
                 }
                 return Promise.reject(`Ошибка клика снятия лайк: ${res.statusText}`)
