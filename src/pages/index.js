@@ -7,7 +7,7 @@ import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
-// import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
+import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
 
 import {
     popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
@@ -48,7 +48,6 @@ const createCard = (cardData) => {
     const card = new Card(cardData, cardTemplate,
         {
             handleCardClick() {
-                console.log(cardData)
                 popupWithImage.open(cardData.link, cardData.name);
             },
 
