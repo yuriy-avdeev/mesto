@@ -86,7 +86,6 @@ const createCard = (cardData) => {
 
             counterLikes() {                                                 // вызов по клику лайка. слушатель в Card.js
                 if (cardElement.querySelector(clickedLikeSelector)) {
-                    console.log(card.isLiked())
                     api.likeCard(card.getCardId())                  // ушел запрос с добавлением своего лайка (id - получил из Card)
                         .then(res => {
                             card.updateLikes(res.likes.length)    // передал кол. лайков для отрисовки в ДОМ
