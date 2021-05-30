@@ -1,6 +1,6 @@
 import Popup from './Popup.js';
 
-export default class extends Popup {
+export default class PopupWithImage extends Popup {
     constructor(popupSelector) {
         super(popupSelector);
         this._bigFoto = this._popup.querySelector('.popup-image__big-foto');
@@ -12,6 +12,5 @@ export default class extends Popup {
         this._bigFoto.src = link;
         this._bigCaption.textContent =  name;
         this._bigFoto.alt = 'увеличенное выбранное изображение';
-        super.setEventListeners();
     }
 }

@@ -1,19 +1,29 @@
-export default class {
+export default class Api {
     constructor({ url, headers }) {
         this._url = url;
         this._headers = headers;
+    }
+
+    _checkResponse(res) {
+        if (res.ok) {
+            return res.json()
+        } else {
+            return Promise.reject(`Ошибка: ${res.status} - ${res.statusText}`)
+        }
+    }
+
+    getUser() {
+        return fetch(`${this._url}/users/me`, {
+            headers: this._headers
+        })
+        .then(this._checkResponse)
     }
 
     getCards() {
         return fetch(`${this._url}/cards`, {
             headers: this._headers
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-                return Promise.reject(`Ошибка загрузки карточки: ${res.statusText}`)
-            })
+        .then(this._checkResponse)
     }
 
     deleteCard(id) {
@@ -21,12 +31,7 @@ export default class {
             method: 'DELETE',
             headers: this._headers
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-                return Promise.reject(`Ошибка удаления карточки: ${res.statusText}`)
-            })
+        .then(this._checkResponse)
     }
 
 
@@ -35,12 +40,7 @@ export default class {
             method: 'PUT',
             headers: this._headers
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-                return Promise.reject(`Ошибка клика лайк: ${res.statusText}`)
-            })
+        .then(this._checkResponse)
     }
 
 
@@ -49,24 +49,7 @@ export default class {
             method: 'DELETE',
             headers: this._headers
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-                return Promise.reject(`Ошибка клика снятия лайк: ${res.statusText}`)
-            })
-    }
-
-    getUser() {
-        return fetch(`${this._url}/users/me`, {
-            headers: this._headers
-        })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-                return Promise.reject(`Ошибка загрузки данных пользователя: ${res.statusText}`)
-            })
+        .then(this._checkResponse)
     }
 
     saveUserInfo({ name, activity }) {
@@ -78,13 +61,7 @@ export default class {
                 about: activity
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`Ошибка сохранения данных пользователя: ${res.status}`)
-                }
-            })
+        .then(this._checkResponse)
     }
 
     saveNewCard({ name, url }) {
@@ -96,13 +73,7 @@ export default class {
                 link: url
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`Ошибка добавления новой карточки: ${res.status}`)
-                }
-            })
+        .then(this._checkResponse)
     }
 
     newAvatar(url) {
@@ -113,12 +84,6 @@ export default class {
                 avatar: url,
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`Ошибка добавления нового аватара пользователя: ${res.status}`)
-                }
-            })
+            .then(this._checkResponse)
     }
 }

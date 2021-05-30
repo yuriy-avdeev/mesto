@@ -8,7 +8,7 @@ const nameUserSelector = '.profile__name';
 const activityUserSelector = '.profile__activity'; 
 const counterLikeSelector = '.photo-place__like-number';
 const clickedLikeSelector = '.photo-place__like_click';
-const userAvatar = document.querySelector('.profile__photo');
+const avatarUserSelector = '.profile__photo';
 // форма редактирования профиля
 const buttonEditProfile = document.querySelector('.profile__editor-popup');
 const popupFormAboutUser = document.querySelector('.popup__form-user');
@@ -35,10 +35,10 @@ const validationConfig = {
     inactiveButtonSelector: 'popup__submit_inactive',
     inputErrorSelector: 'popup__input_state_error',
     errorMessageSelector: 'popup__input-error_active',
-    buttonOpenPopupList: Array.from(document.querySelectorAll('.profile__click')),
 }
 
 export {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
     popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, avatarElement, 
-    popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, userAvatar};
+    popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, 
+    avatarUserSelector};

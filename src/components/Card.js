@@ -1,5 +1,6 @@
-export default class {
-    constructor(data, cardTemplate, { handleCardClick, handleBasketClick, counterLikes }) {
+export default class Card {
+    constructor(userID, data, cardTemplate, { handleCardClick, handleBasketClick, counterLikes }) {
+        this._userID= userID;
         this._data = data;
         this._cardTemplate = cardTemplate;
         this._newCardSelector = '.photo-place';
@@ -17,7 +18,7 @@ export default class {
     }
 
     _getTemplate() {
-        if (this._data.owner._id !== "938e46438622e38390dc83dc") {
+        if (this._data.owner._id !== this._userID) {
             const cardElement = this._newCardElement.cloneNode(true);
             cardElement.querySelector('.photo-place__basket').remove(); 
             return cardElement
@@ -34,7 +35,7 @@ export default class {
         this._counterLikeElement.textContent = this._data.likes.length
         this._placeWithImage.alt = 'загруженное изображение';
         this._data.likes.forEach(user => {
-            if(user._id == "938e46438622e38390dc83dc") {
+            if(user._id == this._userID) {
                 this._placeLikeSymbol.classList.add(`${this._placeLikeSelector}_click`)
             }
         });
@@ -59,5 +60,17 @@ export default class {
     _likeCard = (button) => {
         button.classList.toggle(`${this._placeLikeSelector}_click`);
         this._counterLikes();
+    }
+
+    updateLikes(likesNumber) {
+        this._counterLikeElement.textContent = likesNumber;
+    }
+
+    getCardId() {
+        return this._data._id 
+    }
+
+    removeCard() {
+        this._element.remove()
     }
 }

@@ -12,16 +12,25 @@ import './index.css'; // импорт главного файла стилей �
 import {
     popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, userAvatar,
+    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, avatarUserSelector,
     popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, avatarElement,
 } from '../utils/utils.js';
 
 const popupWithImage = new PopupWithImage(popupWithImageSelector);
-const userInfo = new UserInfo({ nameUserSelector: nameUserSelector, activityUserSelector: activityUserSelector });
+popupWithImage.setEventListeners();
+const userInfo = new UserInfo({ 
+    nameUserSelector: nameUserSelector, 
+    activityUserSelector: activityUserSelector,
+    avatarUserSelector: avatarUserSelector
+});
 const addCardFormValidator = new FormValidator(validationConfig, popupFormAddNewFoto);
+addCardFormValidator.setInputListener();
 const editProfileFormValidator = new FormValidator(validationConfig, popupFormAboutUser);
+editProfileFormValidator.setInputListener();
 const newAvatarFormValidator = new FormValidator(validationConfig, popupAvatarChange);
+newAvatarFormValidator.setInputListener();
 const popupWithConfirm = new PopupWithConfirm(popupWithConfirmSelector, buttonConfirmDelete);
+popupWithConfirm.setEventListeners();
 
 const section = new Section({
     renderer: (itemWithData) => {
@@ -38,14 +47,25 @@ const api = new Api({
     }
 });
 
-api.getCards()     // загрузка начальных карточек
-    .then(dataCardList => {
-        section.renderItems(dataCardList)
-    });
+// let user = null;
 
+Promise.all([api.getUser(), api.getCards()]) 
+    .then(([userData, dataCardList]) => {
+
+        userInfo.setUserInfo(userData);
+        // user = userData;
+        
+        // dataCardList = dataCardList.slice(0, 6)
+        section.renderItems(dataCardList)
+    })
+    .catch(err => console.log(err))
+
+// console.log(user)                                           // null - !!!
+// const user = userInfo.getUserInfo().id           // ошибка из userInfo
 
 const createCard = (cardData) => {
-    const card = new Card(cardData, cardTemplate,
+    // userInfo.getUserInfo().id - работает только как параметр
+    const card = new Card(userInfo.getUserInfo().id, cardData, cardTemplate,  
         {
             handleCardClick() {
                 popupWithImage.open(cardData.link, cardData.name);
@@ -53,30 +73,29 @@ const createCard = (cardData) => {
 
             handleBasketClick() {    // обработчик клика по корзине - удаляем карточку (слушатель в Card.js)
                 const handleConfirm = () => {
-                    api.deleteCard(card._data._id)
+                    api.deleteCard(card.getCardId())
                         .then(() => {
-                            card._element.remove() 
+                            card.removeCard()
                             popupWithConfirm.close();
-                            // buttonConfirmDelete.removeEventListener('click', handleConfirm);
                         })
                         .catch(err => console.log(err));
                 }
                 popupWithConfirm.open(handleConfirm);
-                popupWithConfirm.setEventListeners();
                 buttonConfirmDelete.addEventListener('click', handleConfirm);
             },
 
-            counterLikes() {           // вызов по клику лайка. слушатель в Card.js
+            counterLikes() {                                                 // вызов по клику лайка. слушатель в Card.js
                 if (cardElement.querySelector(clickedLikeSelector)) {
-                    api.likeCard(cardData._id)
+                    console.log(card.isLiked())
+                    api.likeCard(card.getCardId())                  // ушел запрос с добавлением своего лайка (id - получил из Card)
                         .then(res => {
-                            cardElement.querySelector(counterLikeSelector).textContent = res.likes.length
+                            card.updateLikes(res.likes.length)    // передал кол. лайков для отрисовки в ДОМ
                         })
                         .catch(err => console.log(err))
                 } else {
-                    api.likeCardCancel(cardData._id)
+                    api.likeCardCancel(card.getCardId())       // ушел запрос с удалением своего лайка
                         .then(res => {
-                            cardElement.querySelector(counterLikeSelector).textContent = res.likes.length
+                            card.updateLikes(res.likes.length)    // передал кол. лайков для отрисовки в ДОМ
                         })
                         .catch(err => console.log(err))
                 }
@@ -87,30 +106,14 @@ const createCard = (cardData) => {
     return cardElement;
 }
 
-// отрисовка процесса загрузки
-function renderLoading(isLoading, buttonSubmit, initialText) {
-    if (isLoading) {
-        buttonSubmit.textContent = 'Сохранение...'
-    } else {
-        buttonSubmit.textContent = initialText
-    }
-}
-
-api.getUser()
-    .then(res => {
-        userInfo.setUserInfo(res.name, res.about);
-        userAvatar.src = res.avatar;
-    })
-    .catch(err => console.log(err))
-
 const popupWithFormAddFoto = new PopupWithForm({
     popupSelector: popupAddFotoSelector,
-    handleFormSubmit: (formValues, buttonSubmit, initialText) => {
-        renderLoading(true, buttonSubmit, initialText);
+    handleFormSubmit: (formValues) => {
+        popupWithFormAddFoto.renderLoading(true);
         api.saveNewCard({ name: formValues.name, url: formValues.link })
             .then(cardData => {
-                section.renderItems([cardData])
-                renderLoading(false, buttonSubmit, initialText)
+                section.renderItems([cardData]);
+                popupWithFormAddFoto.renderLoading(false);
                 popupWithFormAddFoto.close();
             })
             .catch(err => console.log(err))
@@ -122,20 +125,20 @@ popupWithFormAddFoto.setEventListeners();
 // в артрибуте (объект), где атрибут name (html-элемента) - это ключ, value - значение (см. _getInputValues)):
 
 buttonAddNewFoto.addEventListener('click', () => {
-    addCardFormValidator.enableValidation();
+    addCardFormValidator.resetValidation();
     popupWithFormAddFoto.open();
 })
 
 // попап редактирования профиля:
 const popupWithFormAboutUser = new PopupWithForm({
     popupSelector: popupEditProfileSelector,
-    handleFormSubmit: (formValues, buttonSubmit, initialText) => {
-        renderLoading(true, buttonSubmit, initialText);
+    handleFormSubmit: (formValues) => {
+        popupWithFormAboutUser.renderLoading(true);
         // ниже метод отправки POSTом серверу новых данных о пользователе
         api.saveUserInfo({ name: formValues.name, activity: formValues.activity })
             .then(userData => {
-                userInfo.setUserInfo(userData.name, userData.about) // в ДОМ добавили имя и работу из ответа сервера
-                renderLoading(false, buttonSubmit, initialText)
+                userInfo.setUserInfo(userData) // в ДОМ добавили имя и работу из ответа сервера
+                popupWithFormAboutUser.renderLoading(false);
                 popupWithFormAboutUser.close();
             })
             .catch(err => console.log(err))
@@ -147,19 +150,19 @@ popupWithFormAboutUser.setEventListeners();
 buttonEditProfile.addEventListener('click', () => {
     nameInput.value = userInfo.getUserInfo().name;
     jobInput.value = userInfo.getUserInfo().activity;
-    editProfileFormValidator.enableValidation();
+    editProfileFormValidator.resetValidation();
     popupWithFormAboutUser.open();
 })
 
 // попап изма аватара:
 const popupWithFormNewAvatar = new PopupWithForm({
     popupSelector: popupWithNewAvatarSelector,
-    handleFormSubmit: (formValues, buttonSubmit, initialText) => {
-        renderLoading(true, buttonSubmit, initialText)
+    handleFormSubmit: (formValues) => {
+        popupWithFormNewAvatar.renderLoading(true)
         api.newAvatar(formValues.link)
-            .then(res => {
-                userAvatar.src = res.avatar;
-                renderLoading(false, buttonSubmit, initialText)
+            .then(userData => {
+                userInfo.setUserInfo(userData);
+                popupWithFormNewAvatar.renderLoading(false)
                 popupWithFormNewAvatar.close()
             })
             .catch(err => console.log(err))
@@ -169,6 +172,6 @@ const popupWithFormNewAvatar = new PopupWithForm({
 popupWithFormNewAvatar.setEventListeners();
 
 avatarElement.addEventListener('click', () => {
-    newAvatarFormValidator.enableValidation();
+    newAvatarFormValidator.resetValidation();
     popupWithFormNewAvatar.open();
 })
