@@ -12,7 +12,7 @@ import './index.css'; // импорт главного файла стилей �
 import {
     popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, avatarUserSelector,
+    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, avatarUserSelector,
     popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, avatarElement,
 } from '../utils/utils.js';
 

@@ -6,7 +6,6 @@ const popupWithNewAvatarSelector = '.popup-avatar';
 const sectionWithCardSelector = '.places';
 const nameUserSelector = '.profile__name';
 const activityUserSelector = '.profile__activity'; 
-const counterLikeSelector = '.photo-place__like-number';
 const clickedLikeSelector = '.photo-place__like_click';
 const avatarUserSelector = '.profile__photo';
 // форма редактирования профиля
@@ -39,6 +38,6 @@ const validationConfig = {
 
 export {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
-    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, counterLikeSelector, avatarElement, 
+    popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, avatarElement, 
     popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, 
     avatarUserSelector};
