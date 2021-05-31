@@ -62,6 +62,11 @@ export default class Card {
         this._counterLikes();
     }
 
+    isLiked() {
+        console.log(this._element)
+        return this._element.querySelector(`${this._placeLikeSelector}_click`) === true
+    }
+
     updateLikes(likesNumber) {
         this._counterLikeElement.textContent = likesNumber;
     }
