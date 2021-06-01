@@ -59,12 +59,8 @@ export default class Card {
 
     _likeCard = (button) => {
         button.classList.toggle(`${this._placeLikeSelector}_click`);
-        this._counterLikes();
-    }
-
-    isLiked() {  //.......................... <= разобраться (асинхрон - приходит поздно?)
-        console.log(this._element)
-        return this._element.querySelector(`${this._placeLikeSelector}_click`) === true
+        const isLiked = this._element.querySelector(`.${this._placeLikeSelector}_click`) ? true : false; // если эл. кликнут user'ом (м.б. отд. метод) 
+        this._counterLikes(isLiked); //<= тут колбэк-счетчик лайков  
     }
 
     updateLikes(likesNumber) {
@@ -72,10 +68,10 @@ export default class Card {
     }
 
     getCardId() {
-        return this._data._id 
+        return this._data._id;
     }
 
     removeCard() {
-        this._element.remove()
+        this._element.remove();
     }
 }

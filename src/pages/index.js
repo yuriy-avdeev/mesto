@@ -7,7 +7,7 @@ import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
-import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
+// import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
 
 import {
     popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
@@ -47,8 +47,6 @@ const api = new Api({
     }
 });
 
-/////////////////////////////////////////////////////////////////////////// vvvvvvvvvvvvvvvvvv
-
 let user = null; /// <=
 
 Promise.all([api.getUser(), api.getCards()]) 
@@ -57,28 +55,18 @@ Promise.all([api.getUser(), api.getCards()])
         userInfo.setUserInfo(userData);
         user = userData; /// <=
         
-        dataCardList = dataCardList.slice(0, 6)
+        dataCardList = dataCardList.slice(0, 3)
         section.renderItems(dataCardList)
-        // console.log(user) /// <=
     })
     .catch(err => console.log(err))
 
-
-// user2 = userInfo.getUserInfo().id /// <= дает ошибку в userInfo (разобраться: что-то с присвоением с this._)
-// console.log(user2)  /// <= ошибка из userInfo
-
-/////////////////////////////////////////////////////////////////////////// ^^^^^^^^^^^^^^^^^
-
 const createCard = (cardData) => {
-
-// const card = new Card(userInfo.getUserInfo().id, cardData, cardTemplate, // id - из getUserInfo().id (расход памяти), снаружи-ошибка
-    
-    const card = new Card(user, cardData, cardTemplate,  /// <= user - присвоен в (api.getUser()), т.к. асинхрон - сразу недоступен, 
-    // но к моменту вызова в createCard уже присваивается вместо null
+    const card = new Card(user, cardData, cardTemplate,  /// <= user - присвоен в (api.getUser()), т.к. асинхрон - снаружи недоступен, 
+    // но к моменту вызова в createCard уже присваивается вместо null (можно (userInfo.getUserInfo().id) - но тут расход памяти)
         {
             handleCardClick() {
                 popupWithImage.open(cardData.link, cardData.name);
-                console.log('в createCard: ' + user._id) /// <= снаружи - null - !!!
+                console.log('в createCard user._id: ' + user._id) /// <= снаружи - null - !!!
             },
 
             handleBasketClick() {    /// <= обработчик клика по корзине - удаляем карточку (слушатель в Card.js)
@@ -93,10 +81,8 @@ const createCard = (cardData) => {
                 popupWithConfirm.open(handleConfirm);
                 buttonConfirmDelete.addEventListener('click', handleConfirm);
             },
-
-            counterLikes() {                                                 // вызов по клику лайка. слушатель в Card.js
-                if (cardElement.querySelector(clickedLikeSelector)) {
-                    // console.log(card.isLiked())
+            counterLikes(isLiked) {                                     // вызов по клику лайка. слушатель в Card.js, клик > isLiked > true или false
+                if (isLiked) {
                     api.likeCard(card.getCardId())                  // ушел запрос с добавлением своего лайка (id - получил из Card)
                         .then(res => {
                             card.updateLikes(res.likes.length)    // передал кол. лайков для отрисовки в ДОМ

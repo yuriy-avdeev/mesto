@@ -10,8 +10,7 @@ export default class UserInfo {
         userInfo.name = this._name.textContent;
         userInfo.activity = this._activity.textContent;
         userInfo.avatar = this._userData.avatar;
-        userInfo.id = this._userData._id;
-        // console.log(userInfo)
+        // userInfo.id = this._userData._id;  // <= можно передать в (createCard) вместо (user), но будет лишний расход памяти
         return userInfo 
     }
 
