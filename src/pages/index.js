@@ -66,7 +66,6 @@ const createCard = (cardData) => {
         {
             handleCardClick() {
                 popupWithImage.open(cardData.link, cardData.name);
-                console.log('в createCard user._id: ' + user._id) /// <= снаружи - null - !!!
             },
 
             handleBasketClick() {    /// <= обработчик клика по корзине - удаляем карточку (слушатель в Card.js)
