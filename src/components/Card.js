@@ -1,6 +1,6 @@
 export default class Card {
-    constructor(userID, data, cardTemplate, { handleCardClick, handleBasketClick, counterLikes }) {
-        this._userID= userID;
+    constructor(user, data, cardTemplate, { handleCardClick, handleBasketClick, counterLikes }) {
+        this._userID= user._id;
         this._data = data;
         this._cardTemplate = cardTemplate;
         this._newCardSelector = '.photo-place';
@@ -62,10 +62,10 @@ export default class Card {
         this._counterLikes();
     }
 
-    // isLiked() {
-    //     console.log(this._element)
-    //     return this._element.querySelector(`${this._placeLikeSelector}_click`) === true
-    // }
+    isLiked() {  //.......................... <= разобраться (асинхрон - приходит поздно?)
+        console.log(this._element)
+        return this._element.querySelector(`${this._placeLikeSelector}_click`) === true
+    }
 
     updateLikes(likesNumber) {
         this._counterLikeElement.textContent = likesNumber;

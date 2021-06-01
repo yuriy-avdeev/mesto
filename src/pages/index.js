@@ -47,31 +47,41 @@ const api = new Api({
     }
 });
 
-// let user = null;
+/////////////////////////////////////////////////////////////////////////// vvvvvvvvvvvvvvvvvv
+
+let user = null; /// <=
 
 Promise.all([api.getUser(), api.getCards()]) 
     .then(([userData, dataCardList]) => {
 
         userInfo.setUserInfo(userData);
-        // user = userData;
+        user = userData; /// <=
         
         dataCardList = dataCardList.slice(0, 6)
         section.renderItems(dataCardList)
+        // console.log(user) /// <=
     })
     .catch(err => console.log(err))
 
-// console.log(user)                                           // null - !!!
-// const user = userInfo.getUserInfo().id           // ошибка из userInfo
+
+// user2 = userInfo.getUserInfo().id /// <= дает ошибку в userInfo (разобраться: что-то с присвоением с this._)
+// console.log(user2)  /// <= ошибка из userInfo
+
+/////////////////////////////////////////////////////////////////////////// ^^^^^^^^^^^^^^^^^
 
 const createCard = (cardData) => {
-    // userInfo.getUserInfo().id - работает только как параметр
-    const card = new Card(userInfo.getUserInfo().id, cardData, cardTemplate,  
+
+// const card = new Card(userInfo.getUserInfo().id, cardData, cardTemplate, // id - из getUserInfo().id (расход памяти), снаружи-ошибка
+    
+    const card = new Card(user, cardData, cardTemplate,  /// <= user - присвоен в (api.getUser()), т.к. асинхрон - сразу недоступен, 
+    // но к моменту вызова в createCard уже присваивается вместо null
         {
             handleCardClick() {
                 popupWithImage.open(cardData.link, cardData.name);
+                console.log('в createCard: ' + user._id) /// <= снаружи - null - !!!
             },
 
-            handleBasketClick() {    // обработчик клика по корзине - удаляем карточку (слушатель в Card.js)
+            handleBasketClick() {    /// <= обработчик клика по корзине - удаляем карточку (слушатель в Card.js)
                 const handleConfirm = () => {
                     api.deleteCard(card.getCardId())
                         .then(() => {
