@@ -1,9 +1,9 @@
 import Popup from './Popup.js';
 
 export default class PopupWithConfirm extends Popup {
-    constructor(popupSelector, buttonConfirmDelete) {
+    constructor(popupSelector) {
         super(popupSelector);
-        this._buttonConfirmDelete = buttonConfirmDelete;
+        this._popupForm =  this._popup.querySelector('.popup__form');
     }
 
     open(handleConfirm) {
@@ -13,6 +13,6 @@ export default class PopupWithConfirm extends Popup {
 
     close() {
         super.close();
-        this._buttonConfirmDelete.removeEventListener('click', this._handleConfirm);
+        this._popupForm.removeEventListener('submit', this._handleConfirm);
     }
 }

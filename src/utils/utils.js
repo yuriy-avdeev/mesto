@@ -8,6 +8,9 @@ const nameUserSelector = '.profile__name';
 const activityUserSelector = '.profile__activity'; 
 const clickedLikeSelector = '.photo-place__like_click';
 const avatarUserSelector = '.profile__photo';
+const popupFormSelector = '.popup__form';
+const popupActiveSelector = '.popup_active';
+
 // форма редактирования профиля
 const buttonEditProfile = document.querySelector('.profile__editor-popup');
 const popupFormAboutUser = document.querySelector('.popup__form-user');
@@ -40,4 +43,4 @@ export {popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, 
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
     popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, avatarElement, 
     popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, 
-    avatarUserSelector};
+    avatarUserSelector, popupFormSelector, popupActiveSelector};

@@ -45,10 +45,11 @@
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form class="popup__form popup__form-user" name="popup-form" novalidate>
                     <input id="username-input" name="name" type="text" class="popup__input popup__input_type_name"
-                    placeholder="Имя пользователя" minlength="2" maxlength="40" required>
+                        placeholder="Имя пользователя" minlength="2" maxlength="40" required>
                     <span class="username-input-error popup__input-error"></span>
-                    <input id="useractivity-input" name="activity" type="text" class="popup__input popup__input_type_activity" 
-                    placeholder="Профессия" minlength="2" maxlength="200" required>
+                    <input id="useractivity-input" name="activity" type="text"
+                        class="popup__input popup__input_type_activity" placeholder="Профессия" minlength="2"
+                        maxlength="200" required>
                     <span class="useractivity-input-error popup__input-error"></span>
                     <button class="popup__submit" type="submit">Сохранить</button>
                 </form>
@@ -73,53 +74,53 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="popup popup-image">
-        <div class="popup-image__container">
-            <img class="popup-image__big-foto" src="#" alt="увеличенное изображение выбранной карточки">
-            <h2 class="popup-image__caption"></h2>
-            <button class="popup__close" type="button" aria-label="закроем увеличенную фотографию"></button>
-        </div>
-    </div>
-
-    <div class="popup popup-delete">
-        <div class="popup__container">
-            <h2 class="popup__title">Вы уверены?</h2>
-            <button class="popup__submit popup__submit-confirm" type="button">Да</button>
-            <button class="popup__close" type="button" aria-label="закроем поле удаления карточки"></button>
-        </div>
-    </div>
-
-    <div class="popup popup-avatar">
-        <div class="popup__container">
-            <h2 class="popup__title">Обновить аватар</h2>
-
-            <form class="popup__form popup__form-avatar-change" name="popup-avatar-change-form" novalidate>
-                <input id="url-avatar-input" name="link" type="url" class="popup__input popup__input_new-avatar"
-                placeholder="Ссылка на изображение" required>
-                <span class="url-avatar-input-error popup__input-error"></span>
-                <button class="popup__submit" type="submit">Сохранить</button>
-            </form>
-
-            <button class="popup__close" type="button"
-                aria-label="закроем редактор добавления нового места"></button>
-        </div>
-    </div>
-
-    <template id="photo-place">
-        <div class="photo-place">
-            <img class="photo-place__image" src="#" alt="добавленное пользователем изображение новой карточки">
-            <h2 class="photo-place__caption"></h2>
-            <div class="photo-place__like-area">
-                <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
-                <p class ="photo-place__like-number" value="like-number">0</p>
+        <div class="popup popup-image">
+            <div class="popup-image__container">
+                <img class="popup-image__big-foto" src="#" alt="увеличенное изображение выбранной карточки">
+                <h2 class="popup-image__caption"></h2>
+                <button class="popup__close" type="button" aria-label="закроем увеличенную фотографию"></button>
             </div>
-            <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
         </div>
-    </template>
+
+        <div class="popup popup-delete">
+            <div class="popup__container">
+                <h2 class="popup__title">Вы уверены?</h2>
+                <form class="popup__form" name="popup-delete-card-form" novalidate>
+                    <button class="popup__submit" type="submit">Да</button>
+                </form>
+                <button class="popup__close" type="button" aria-label="закроем поле удаления карточки"></button>
+            </div>
+        </div>
+
+        <div class="popup popup-avatar">
+            <div class="popup__container">
+                <h2 class="popup__title">Обновить аватар</h2>
+                <form class="popup__form popup__form-avatar-change" name="popup-avatar-change-form" novalidate>
+                    <input id="url-avatar-input" name="link" type="url" class="popup__input popup__input_new-avatar"
+                        placeholder="Ссылка на изображение" required>
+                    <span class="url-avatar-input-error popup__input-error"></span>
+                    <button class="popup__submit" type="submit">Сохранить</button>
+                </form>
+                <button class="popup__close" type="button"
+                    aria-label="закроем редактор добавления нового места"></button>
+            </div>
+        </div>
+
+        <template id="photo-place">
+            <div class="photo-place">
+                <img class="photo-place__image" src="#" alt="добавленное пользователем изображение новой карточки">
+                <h2 class="photo-place__caption"></h2>
+                <div class="photo-place__like-area">
+                    <button class="photo-place__like" aria-label="поставим лайк" type="button"></button>
+                    <p class="photo-place__like-number" value="like-number">0</p>
+                </div>
+                <button class="photo-place__basket" type="button" aria-label="удаляем фотографию"></button>
+            </div>
+        </template>
+    </div>
 
     <script type="module" src="./pages/index.js"></script>
 
 </body>
+
 </html>

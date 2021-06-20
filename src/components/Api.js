@@ -5,19 +5,33 @@ export default class Api {
     }
 
     _checkResponse(res) {
-        if (res.ok) {
-            return res.json()
-        } else {
-            return Promise.reject(`Ошибка: ${res.status} - ${res.statusText}`)
-        }
+        return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status} - ${res.statusText}`)
+        // после запроса (fetch) получили спец. объект ответа (res) и если промис выполнен успешно (res.ok ?), то >
+        // выполним метод объекта ответа (res.json()), чтобы получить данные,  - возвр-т промис => 
+        // далее (тут в index.js) снова вызываем .then и обрабатываем в колбеке
+
     }
 
-    getUser() {
-        return fetch(`${this._url}/users/me`, {
+    async getUser() {
+        const res = await fetch(`${this._url}/users/me`, {
             headers: this._headers
         })
-        .then(this._checkResponse)
+        return this._checkResponse(res);
+        // код останавливает выполн-е на ключ. слове await (до выполн. обещания) и продолжает 
+        // выполнение далее - async/await позволяет писать асинхронный код синхронно, не блокируя стек вызовов. 
+        // мы замораживаем код и ждем пока выполнится промис, а затем продолжаем. 
+        // асинхронн. функция позволяет “вытащить” значение завершенного промиса без метода (then).
     }
+
+    async likeCard(id) {
+        const res = await fetch(`${this._url}/cards/likes/${id}`, {
+            method: 'PUT',
+            headers: this._headers
+        });
+        return this._checkResponse(res);
+    }
+
+// дальше - через then
 
     getCards() {
         return fetch(`${this._url}/cards`, {
@@ -33,16 +47,6 @@ export default class Api {
         })
         .then(this._checkResponse)
     }
-
-
-    likeCard(id) {
-        return fetch(`${this._url}/cards/likes/${id}`, {
-            method: 'PUT',
-            headers: this._headers
-        })
-        .then(this._checkResponse)
-    }
-
 
     likeCardCancel(id) {
         return fetch(`${this._url}/cards/likes/${id}`, {

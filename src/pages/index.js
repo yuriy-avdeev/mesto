@@ -5,7 +5,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import UserInfo from '../components/UserInfo.js';
-import Api from '../components/Api.js';
+import Api from '../components/Api.js'; 
 
 // import './index.css'; // импорт главного файла стилей для сборки проекта (из html ссылка убрана)
 
@@ -13,7 +13,7 @@ import {
     popupAddFotoSelector, popupEditProfileSelector, popupWithImageSelector, sectionWithCardSelector,
     nameUserSelector, activityUserSelector, buttonEditProfile, popupFormAboutUser, nameInput, jobInput, buttonAddNewFoto,
     popupFormAddNewFoto, cardTemplate, validationConfig, popupWithConfirmSelector, avatarUserSelector,
-    popupWithNewAvatarSelector, token, urlFetch, buttonConfirmDelete, popupAvatarChange, clickedLikeSelector, avatarElement,
+    popupWithNewAvatarSelector, token, urlFetch, popupActiveSelector, popupAvatarChange, popupFormSelector, avatarElement,
 } from '../utils/utils.js';
 
 const popupWithImage = new PopupWithImage(popupWithImageSelector);
@@ -29,7 +29,7 @@ const editProfileFormValidator = new FormValidator(validationConfig, popupFormAb
 editProfileFormValidator.setInputListener();
 const newAvatarFormValidator = new FormValidator(validationConfig, popupAvatarChange);
 newAvatarFormValidator.setInputListener();
-const popupWithConfirm = new PopupWithConfirm(popupWithConfirmSelector, buttonConfirmDelete);
+const popupWithConfirm = new PopupWithConfirm(popupWithConfirmSelector);
 popupWithConfirm.setEventListeners();
 
 const section = new Section({
@@ -55,7 +55,7 @@ Promise.all([api.getUser(), api.getCards()])
         userInfo.setUserInfo(userData);
         user = userData; /// <=
         
-        dataCardList = dataCardList.slice(0, 9)
+        dataCardList = dataCardList.slice(0, 6)
         section.renderItems(dataCardList)
     })
     .catch(err => console.log(err))
@@ -69,7 +69,9 @@ const createCard = (cardData) => {
             },
 
             handleBasketClick() {    /// <= обработчик клика по корзине - удаляем карточку (слушатель в Card.js)
-                const handleConfirm = () => {
+                const handleConfirm = (evt) => {
+            evt.preventDefault();
+
                     api.deleteCard(card.getCardId())
                         .then(() => {
                             card.removeCard()
@@ -78,7 +80,7 @@ const createCard = (cardData) => {
                         .catch(err => console.log(err));
                 }
                 popupWithConfirm.open(handleConfirm);
-                buttonConfirmDelete.addEventListener('click', handleConfirm);
+                document.querySelector(popupActiveSelector).querySelector(popupFormSelector).addEventListener('submit', handleConfirm);
             },
             counterLikes(isLiked) {                                     // вызов по клику лайка. слушатель в Card.js, клик > isLiked > true или false
                 if (isLiked) {
