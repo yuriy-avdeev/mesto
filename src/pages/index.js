@@ -68,7 +68,7 @@ const createCard = (cardData) => {
                 popupWithImage.open(cardData.link, cardData.name);
             },
 
-            handleBasketClick() {    /// <= обработчик клика по корзине - удаляем карточку (слушатель в Card.js)
+            handleBasketClick() {    /// <= слушатель в Card.js
                 const handleConfirm = (evt) => {
             evt.preventDefault();
 
@@ -82,7 +82,7 @@ const createCard = (cardData) => {
                 popupWithConfirm.open(handleConfirm);
                 document.querySelector(popupActiveSelector).querySelector(popupFormSelector).addEventListener('submit', handleConfirm);
             },
-            counterLikes(isLiked) {                                     // вызов по клику лайка. слушатель в Card.js, клик > isLiked > true или false
+            counterLikes(isLiked) {                                     // слушатель в Card.js, клик > isLiked > true или false
                 if (isLiked) {
                     api.likeCard(card.getCardId())                  // ушел запрос с добавлением своего лайка (id - получил из Card)
                         .then(res => {
@@ -134,7 +134,7 @@ const popupWithFormAboutUser = new PopupWithForm({
         // ниже метод отправки POSTом серверу новых данных о пользователе
         api.saveUserInfo({ name: formValues.name, activity: formValues.activity })
             .then(userData => {
-                userInfo.setUserInfo(userData) // в ДОМ добавили имя и работу из ответа сервера
+                userInfo.setUserInfo(userData) // в DOM добавили имя и работу из ответа сервера
                 popupWithFormAboutUser.renderLoading(false);
                 popupWithFormAboutUser.close();
             })
