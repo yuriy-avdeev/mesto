@@ -1,6 +1,5 @@
 .photo-place__image {
     cursor: pointer;
-    width: 100%;
-    height: 282px;
-    max-height: 282px;
+    width: fit-content;
+    height: 300px;
 }
