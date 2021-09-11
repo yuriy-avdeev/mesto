@@ -55,7 +55,7 @@ Promise.all([api.getUser(), api.getCards()])
         userInfo.setUserInfo(userData);
         user = userData; /// <=
         
-        dataCardList = dataCardList.slice(7, 13) // <=
+        dataCardList = dataCardList.slice(0, 6) // <=
         section.renderItems(dataCardList)
     })
     .catch(err => console.log(err))
