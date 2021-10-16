@@ -1,13 +1,11 @@
-// подключите плагины в файл:
-const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
+const autoprefixer = require('autoprefixer'); // подкл. плагин в файл
+const cssnano = require('cssnano'); // подкл. плагин в файл
 
 module.exports = {
-  // подключите плагины к PostCSS
+  // подкл. плагины к PostCSS
     plugins: 
     [
-        autoprefixer,   // подключите autoprefixer
-        cssnano({ preset: 'default' })   // cssnano при подключении передаем объект опций {preset: default} - т.е. нужно использовать
-  // стандартные настройки минификации
+        autoprefixer,
+        cssnano({ preset: 'default' })   // передаем объект опций {preset: default} - т.е. нужно исп-ть стандартные настройки минификации
     ]
 };

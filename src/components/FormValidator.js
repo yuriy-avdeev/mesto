@@ -10,11 +10,20 @@ export default class FormValidator {
         this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     }
 
+    // const validationConfig = {
+    //     inputSelector: '.popup__input',
+    //     submitButtonSelector: '.popup__submit',
+    //     inactiveButtonSelector: 'popup__submit_inactive',
+    //     inputErrorSelector: 'popup__input_state_error',
+    //     errorMessageSelector: 'popup__input-error_active',
+    // }
+    
+
     setInputListener() {
         this._inputList.forEach(input => {
             input.addEventListener('input', () => {
                 this._isValid(input);
-                this._toggleButtonView();
+                this._toggleButtonView(); //
             });
         });
     }

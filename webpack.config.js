@@ -1,62 +1,78 @@
-const path = require('path'); // подключаем path к конфигу вебпак
-const HtmlWebpackPlugin = require('html-webpack-plugin'); // подключите плаг
-const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // подключили плагин
-const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // подключите к проекту mini-css-extract-plugin
+const path = require('path'); // подключаем path к конфигу вебпак -  в Node.js утилита, которая превращает относительный путь в абсолютный
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // подключ. плаг - специальный плагин для работы с html (установили - в package.json)
+const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // плагин, который будет каждый раз при сборке проекта удалять содержимое папки dist
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // берёт много css-файлов и объединяет их в один
 
-module.exports = 
+module.exports =
 {
-    entry: { main: './src/pages/index.js' },
-    output: 
+    entry: { main: './src/pages/index.js' }, // указали первое место, куда заглянет webpack, - файл index.js в папке src/pages
+
+    output: // 3 свойства: путь к точке выхода, имя файла, куда вебпак положит код, и свойство для обновления путей внутри CSS- и HTML-файлов
     {
-        path: path.resolve(__dirname, 'dist'), // переписали точку выхода, используя утилиту path
+        // вебпак не понимает относ. путь для точки выхода (!) => в св-во path указ. абс. путь  - т.е. путь от корневой папки => использ. утилиту path
+        path: path.resolve(__dirname, 'dist'), // методу path.resolve переданы два аргумента: ссылка на текущ. папку __dirname и относительный путь к точке выхода
         filename: 'main.js',
-                publicPath: ''
+        publicPath: ''
     },
-    mode: 'development', // добавили режим разработчика
-    devServer: 
+
+    mode: 'development', // настраиваем окружение для разработки
+
+    devServer: // настройки локального сервера
     {
-        contentBase: path.resolve(__dirname, './dist'), // путь, куда "смотрит" режим разработчика
+        static: {
+            directory: path.join(__dirname, './dist'), // путь, куда "смотрит" режим разработчика
+        },
+        client: {
+            overlay: false,
+        },
+        allowedHosts: 'auto',
         compress: true, // это ускорит загрузку в режиме разработки
         port: 8080, // порт, чтобы открывать сайт по адресу localhost:8080, но можно поменять порт
+        // hot: true,
         open: true // сайт будет открываться сам при запуске npm run dev
     },
-    module: 
+
+    module: // - описать правила обработки файлов при сборке - для этого мы создали свойство module, а внутри него — массив rules
     {
-        rules: 
-        [ // rules — это массив правил 
-            {   // добавим в него объект правил для бабеля
-            test: /\.js$/,  // регулярное выражение, которое ищет все js файлы
-            use: 'babel-loader',  // при обработке этих файлов нужно использовать babel-loader
-            exclude: '/node_modules/'  // исключает папку node_modules, файлы в ней обрабатывать не нужно
-            },
-            
-            {   // добавили правило для обработки файлов
-                test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,  // регулярное выражение, кот. ищет все файлы с такими расширениями
-                type: 'asset/resource' //указали в каком виде Вебпак перенесёт файлы в папку dist (за это отвечает св-во type - 
-                // его значение asset/resource позволяет переносить исходные файлы в конечную сборку в том же формате.
-            },
-            {
-                test: /\.css$/,  // применять это правило только к CSS-файлам
-                // при обраб-ке этих файлов - использовать MiniCssExtractPlugin.loader и css-loader:
-                use: [
-                    MiniCssExtractPlugin.loader, 
-                    { 
-                        loader: 'css-loader',     
-                        // если  используем директиву @import в css-файлах - добавляем объект options
-                        options: { importLoaders: 1 }
-                    },
-                    // Добавьте postcss-loader
-                    'postcss-loader'
-                ]
-            },
-        ]
+        rules: // rules — это массив правил
+            [
+                {   // чтобы Webpack задействовал Babel при сборке, нужно добавить в этот файл (конфиг. вебпака) код ниже - объект правил для бабеля
+                    // ... если файл с расшир. .js - сначала отдай этот файл модулю babel-loader, а затем добавляй в сборку -
+                    test: /\.js$/,  // регулярное выражение, которое ищет все js файлы
+                    use: 'babel-loader',  // при обработке этих файлов нужно использовать babel-loader
+                    exclude: '/node_modules/'  // исключает папку node_modules, файлы в ней обрабатывать не нужно
+                },
+
+                {   // а тут - добавили правило для обработки файлов - добавлять такие файлы в итоговую сборку
+                    test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,  // регулярное выражение, кот. ищет все файлы с такими расширениями
+                    // в отличие от JS-кода - не потребуется использовать дополнительный пакет для транспиляции кода -
+                    type: 'asset/resource' //указали в каком виде Вебпак перенесёт файлы в папку dist (за это отвечает св-во type - 
+                    // его значение asset/resource позволяет переносить исходные файлы в конечную сборку в том же формате.
+                },
+
+                {
+                    test: /\.css$/,  // применять это правило только к CSS-файлам
+                    use:
+                        [ // при обраб-ке этих файлов - использовать MiniCssExtractPlugin.loader и css-loader:
+                            MiniCssExtractPlugin.loader,
+                            {
+                                loader: 'css-loader',
+                                options: { importLoaders: 1 } // если  используем директиву @import в css-файлах - добавляем объект options с  importLoaders: 1
+                            },
+                            // добавьте postcss-loader - в правило для обработки css-файлов подключ. плагин PostCSS
+                            'postcss-loader'
+                        ]
+                },
+            ]
     },
-    plugins: // добавьте массив:
-    [
-        new HtmlWebpackPlugin({
-            template: './src/index.html' // путь к файлу index.html
-        }),
-        new CleanWebpackPlugin(), // использовали плагин (настраивать его не нужно)
-        new MiniCssExtractPlugin()  // подключение плагина для объединения файлов
-    ] 
+
+    plugins: // плагины "учат" вебпак работать с разными сущностями (расшир. его базовую функциональность):
+        [
+            new HtmlWebpackPlugin({ // подключённый в начале файла HtmlWebpackPlugin - это класс, с помощью которого можно конструировать объекты
+                // при подключении плагина мы передаём ему объект опций - у нас опция одна - template - относительный путь к файлу index.html
+                template: './src/index.html' // при сборке - подключит скрипты в конце body
+            }),
+            new CleanWebpackPlugin(), // каждый раз при сборке проекта удалять содержимое папки dist (настраивать его не нужно)
+            new MiniCssExtractPlugin()  // подключение плагина для объединения файлов - берёт много css-файлов и объединяет их в один
+        ]
 }

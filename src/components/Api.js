@@ -32,7 +32,6 @@ export default class Api {
     }
 
 // дальше - через then
-
     getCards() {
         return fetch(`${this._url}/cards`, {
             headers: this._headers
