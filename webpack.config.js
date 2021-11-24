@@ -1,4 +1,4 @@
-const path = require('path'); // подключаем path к конфигу вебпак -  в Node.js утилита, которая превращает относительный путь в абсолютный
+const path = require('path'); // подключаем path к конфигу вебпак - в Node.js утилита, которая превращает относительный путь в абсолютный
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // подключ. плаг - специальный плагин для работы с html (установили - в package.json)
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // плагин, который будет каждый раз при сборке проекта удалять содержимое папки dist
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // берёт много css-файлов и объединяет их в один

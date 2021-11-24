@@ -20,5 +20,3 @@ https://yuryavdeev.github.io/mesto
 - БЭМ    
 - API    
 - Webpack    
-
-Для просмотра отрисованной страницы можно воспользоваться расширением для VSCode - Live Server либо аналогичным.
